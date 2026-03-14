@@ -1,0 +1,108 @@
+.weather-container{
+min-height:100vh;
+background:linear-gradient(135deg,#4facfe,#00f2fe);
+padding:40px;
+text-align:center;
+font-family:Arial;
+}
+
+.title{
+color:white;
+margin-bottom:20px;
+}
+
+.search-box{
+margin-bottom:20px;
+}
+
+.search-box input{
+width:260px;
+padding:12px;
+border:none;
+border-radius:6px;
+}
+
+.search-box button{
+padding:12px 20px;
+margin-left:10px;
+background:#ff9800;
+border:none;
+color:white;
+border-radius:6px;
+cursor:pointer;
+}
+
+.search-box button:hover{
+background:#f57c00;
+}
+
+/* MAP */
+
+#map{
+height:450px;
+width:90%;
+margin:30px auto;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* WEATHER CARD */
+
+.weather-card{
+background:white;
+width:500px;
+margin:30px auto;
+padding:25px;
+border-radius:12px;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+.weather-header{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:15px;
+}
+.weather-icon{
+width:60px;
+height:60px;
+margin:10px auto;
+display:block;
+}
+.temperature{
+font-size:48px;
+font-weight:bold;
+margin:10px 0;
+}
+
+.description{
+text-transform:capitalize;
+color:gray;
+margin-bottom:20px;
+}
+
+.weather-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+.info-box{
+background:#f3f3f3;
+padding:15px;
+border-radius:8px;
+font-size:14px;
+}
+
+.info-box span{
+display:block;
+font-weight:bold;
+margin-top:5px;
+}
+#map{
+height:450px;
+width:90%;
+margin:30px auto;
+border-radius:10px;
+box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}

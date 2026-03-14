@@ -1,0 +1,56 @@
+<app-user-header></app-user-header>
+
+<div class="forecast-container">
+
+<h1>5 Day Weather Forecast</h1>
+
+<div class="search-box">
+
+<input
+type="text"
+placeholder="Enter city name"
+[(ngModel)]="city"
+/>
+
+<button (click)="searchForecast()">
+Search
+</button>
+
+</div>
+
+
+@if(forecastData.length > 0){
+
+<div class="forecast-grid">
+
+@for(day of forecastData; track day){
+
+<div class="forecast-card">
+
+<h3>{{day.date}}</h3>
+
+<img [src]="day.icon" class="icon">
+
+<p class="temp">{{day.temperature}}°C</p>
+
+<p class="desc">{{day.description}}</p>
+
+<div class="extra">
+
+<span>💧 {{day.humidity}}%</span>
+
+<span>🌬 {{day.windSpeed}} m/s</span>
+
+</div>
+
+</div>
+
+}
+
+</div>
+
+}
+
+</div>
+
+<app-user-footer></app-user-footer>

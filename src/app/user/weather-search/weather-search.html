@@ -1,0 +1,80 @@
+<app-user-header></app-user-header>
+
+<div class="weather-container">
+
+
+  <!-- SEARCH BAR -->
+  <div class="search-box">
+
+    <input
+      type="text"
+      placeholder="Enter city name..."
+      [(ngModel)]="city"
+    />
+
+    <button (click)="searchWeather()">
+      Search
+    </button>
+
+  </div>
+
+  <!-- MAP -->
+  <div id="map"></div>
+
+  <!-- WEATHER DATA -->
+  @if(weatherData){
+
+  <div class="weather-card">
+
+    <div class="weather-header">
+
+      <h2>{{weatherData.city}}</h2>
+
+      <img [src]="weatherData.icon">
+
+    </div>
+
+    <p class="temperature">
+      {{weatherData.temperature}} °C
+    </p>
+
+    <p class="description">
+      {{weatherData.description}}
+    </p>
+
+    <div class="weather-grid">
+
+      <div class="info-box">
+        🌡 Temperature
+        <span>{{weatherData.temperature}}°C</span>
+      </div>
+
+      <div class="info-box">
+        💧 Humidity
+        <span>{{weatherData.humidity}}%</span>
+      </div>
+
+      <div class="info-box">
+        🌬 Wind Speed
+        <span>{{weatherData.windSpeed}} m/s</span>
+      </div>
+
+      <div class="info-box">
+        📍 Latitude
+        <span>{{weatherData.latitude}}</span>
+      </div>
+
+      <div class="info-box">
+        📍 Longitude
+        <span>{{weatherData.longitude}}</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  }
+
+</div>
+
+<app-user-footer></app-user-footer>
