@@ -1,0 +1,55 @@
+<app-user-header></app-user-header>
+
+<div class="register-wrapper">
+
+    <div class="register-container">
+
+        <h2>🌤 Weather App Registration</h2>
+        <p class="subtitle">Create your account to get weather updates</p>
+
+        <form (ngSubmit)="registerUser()">
+
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" placeholder="Enter your name" [(ngModel)]="user.name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" placeholder="Enter your email" [(ngModel)]="user.email" name="email" required>
+            </div>
+
+    
+            <div class="form-group">
+                <label>City</label>
+                <input type="text" placeholder="Enter your city" [(ngModel)]="user.city" name="city" required>
+            </div>
+
+            <div class="form-group">
+                <label>Phone</label>
+                <input type="text" placeholder="Enter phone number" [(ngModel)]="user.phone" name="phone" required>
+            </div>
+
+            <div class="form-group">
+                <label>Select Role</label>
+                <select [(ngModel)]="user.role" name="role">
+                    <option value="">Select Role</option>
+                    <option value="Student">Student</option>
+                    <option value="Farmer">Farmer</option>
+                    <option value="Traveler">Traveler</option>
+                </select>
+            </div>
+
+            <button type="submit" class="register-btn">Register</button>
+
+            <p class="login-text">
+                Already have an account?
+                <a routerLink="/user/user-login">Login</a>
+            </p>
+
+        </form>
+
+    </div>
+</div>
+
+<app-user-footer></app-user-footer>
