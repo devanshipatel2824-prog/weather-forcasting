@@ -1,0 +1,96 @@
+<div class="dashboard">
+
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+
+  <!-- Main content -->
+  <main class="main-content">
+
+    <!-- Header -->
+    <header class="header">
+      <h1>Weather Admin Dashboard</h1>
+    </header>
+
+    <!-- Dashboard Cards -->
+    <section class="cards-container">
+      <div class="card">
+        <h3>Total Stations</h3>
+        <p>{{ totalStations }}</p>
+      </div>
+      <div class="card card-green">
+        <h3>Active Stations</h3>
+        <p>{{ activeStations }}</p>
+      </div>
+      <div class="card card-red">
+        <h3>Inactive Stations</h3>
+        <p>{{ inactiveStations }}</p>
+      </div>
+      <div class="card card-blue">
+        <h3>Total Weather Records</h3>
+        <p>{{ totalWeatherRecords }}</p>
+      </div>
+    </section>
+
+    <!-- Weather Stations Table -->
+    <section class="table-section">
+      <h2>Weather Stations</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Station Name</th>
+            <th>Location</th>
+            <th>Lat</th>
+            <th>Lon</th>
+            <th>Installed</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let station of stations">
+            <td>{{ station.stationName }}</td>
+            <td>{{ station.location }}</td>
+            <td>{{ station.latitude }}</td>
+            <td>{{ station.longitude }}</td>
+            <td>{{ station.installationDate | date:'shortDate' }}</td>
+            <td>{{ station.status }}</td>
+            <!-- <td><button (click)="deleteStation(station.id!)">Delete</button></td> -->
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Weather Data Table -->
+    <section class="table-section">
+      <h2>Weather Data Records</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Station ID</th>
+            <th>Temp (°C)</th>
+            <th>Humidity (%)</th>
+            <th>Wind (m/s)</th>
+            <th>Rainfall (mm)</th>
+            <th>Pressure (hPa)</th>
+            <th>Date/Time</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let wd of weatherData">
+            <td>{{ wd.stationId }}</td>
+            <td>{{ wd.temperature }}</td>
+            <td>{{ wd.humidity }}</td>
+            <td>{{ wd.windSpeed }}</td>
+            <td>{{ wd.rainfall }}</td>
+            <td>{{ wd.pressure }}</td>
+            <td>{{ wd.dateTime | date:'short' }}</td>
+            <!-- <td><button (click)="deleteWeatherData(wd.id!)">Delete</button></td> -->
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+
+</div>

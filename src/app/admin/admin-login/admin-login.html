@@ -1,0 +1,106 @@
+<div class="container-fluid vh-100 d-flex align-items-center justify-content-center login-bg">
+
+  <div class="col-lg-4 col-md-6 col-sm-10">
+
+    <div class="card shadow-lg border-0 rounded-4 login-card">
+      <div class="card-body p-4">
+
+        <!-- Title -->
+        <h3 class="text-center fw-bold mb-2 text-success">
+          Admin Login
+        </h3>
+
+        <p class="text-center text-muted mb-4">
+          Login to your Weather Forecasting Admin Panel
+        </p>
+
+        <!-- Login Form -->
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+
+          <!-- Email -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Email</label>
+            <input type="email"
+                   class="form-control form-control-lg border-success"
+                   placeholder="Enter your email"
+                   formControlName="email" />
+
+            @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+              <small class="text-danger">
+                @if (loginForm.get('email')?.errors?.['required']) {
+                  Email is required.
+                }
+                @if (loginForm.get('email')?.errors?.['email']) {
+                  Enter a valid email.
+                }
+              </small>
+            }
+          </div>
+
+          <!-- Password -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Password</label>
+            <input type="password"
+                   class="form-control form-control-lg border-success"
+                   placeholder="Enter your password"
+                   formControlName="password" />
+
+            @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+              <small class="text-danger">
+                @if (loginForm.get('password')?.errors?.['required']) {
+                  Password is required.
+                }
+                @if (loginForm.get('password')?.errors?.['minlength']) {
+                  Password must be at least 6 characters.
+                }
+              </small>
+            }
+          </div>
+
+          <!-- Remember Me -->
+          <div class="form-check mb-3">
+            <input class="form-check-input"
+                   type="checkbox"
+                   formControlName="remember"
+                   id="rememberMe" />
+            <label class="form-check-label" for="rememberMe">
+              Remember me
+            </label>
+          </div>
+
+          <!-- Login Button -->
+          <div class="d-grid">
+            <button type="submit"
+                    class="btn btn-success btn-lg rounded-3 fw-bold">
+              Login
+            </button>
+          </div>
+
+        </form>
+
+        <!-- Footer -->
+        <div class="text-center mt-4 small text-muted">
+          © 2026 Weather Forcasting websitex
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast Container -->
+  <div class="position-fixed top-0 end-0 p-3" style="z-index: 1055;">
+    @if (toastMsg){
+      <div class="toast align-items-center text-bg-danger border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+          <div class="toast-body">
+            {{ toastMsg }}
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                  (click)="toastMsg = ''" aria-label="Close"></button>
+        </div>
+      </div>
+    }
+  </div>
+
+</div>

@@ -1,0 +1,42 @@
+<app-user-header></app-user-header>
+
+<div class="alerts-container">
+
+  <h2>🌤 Weather Alerts</h2>
+
+  <!-- 🔴 No Alerts -->
+  <div *ngIf="alerts.length === 0" class="no-alerts">
+    <p>🚫 No alerts available for your role</p>
+    <span class="role-tag">{{userRole}}</span>
+  </div>
+
+  <!-- ✅ Alerts List -->
+  <div class="alert-list">
+
+    <div class="alert-card" *ngFor="let alert of alerts">
+
+      <!-- <div class="alert-top">
+        <h3>📢 {{ alert.title }}</h3>
+        <span class="alert-date">
+          {{ alert.createdAt | date:'medium' }}
+        </span>
+      </div> -->
+
+      <p class="alert-message">
+        {{ alert.message }}
+      </p>
+
+      <!-- 🔥 role badges -->
+      <div class="alert-footer">
+        <span class="badge" *ngFor="let role of alert.roles">
+          {{role}}
+        </span>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<app-user-footer></app-user-footer>

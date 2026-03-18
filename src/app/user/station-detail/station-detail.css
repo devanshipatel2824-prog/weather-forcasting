@@ -1,0 +1,75 @@
+/* 🔷 Page Background */
+body {
+  background: linear-gradient(135deg, #e0f7fa, #f1f8ff);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* 🔷 Container */
+.weather-container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 25px;
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+/* 🔷 Title */
+.weather-container h2 {
+  margin-bottom: 15px;
+  color: #0d6efd;
+}
+
+/* 🔷 Station Name */
+.weather-container h3 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* 🔷 Info Text */
+.weather-container p {
+  margin: 8px 0;
+  font-size: 15px;
+  color: #555;
+}
+
+/* 🔷 Highlight Values */
+.weather-container p b {
+  color: #000;
+}
+
+/* 🔷 Status Badge */
+.status {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+.status.active {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status.inactive {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* 🔷 Button (optional back button) */
+.back-btn {
+  margin-top: 15px;
+  padding: 8px 15px;
+  border: none;
+  background: #0d6efd;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  background: #084298;
+  transform: scale(1.05);
+}

@@ -1,0 +1,208 @@
+/* 🔷 MAIN LAYOUT */
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eef2f7, #f8fbff);
+}
+
+/* 🔷 SIDEBAR */
+app-admin-sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  background: #1e293b; /* dark sidebar */
+  color: white;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+/* 🔷 MAIN CONTENT */
+.main-content {
+  flex: 1;
+  padding: 30px;
+}
+
+/* 🔷 HEADING */
+.main-content h2 {
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* 🔷 FORM DESIGN */
+.form-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 25px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+/* Inputs */
+.form-container input,
+.form-container select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: 0.3s;
+}
+
+.form-container input:focus,
+.form-container select:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 5px rgba(13,110,253,0.3);
+}
+
+/* ADD BUTTON */
+.form-container button {
+  grid-column: span 3;
+  padding: 12px;
+  background: linear-gradient(45deg, #0d6efd, #00c6ff);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.form-container button:hover {
+  transform: scale(1.03);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* 🔷 TABLE */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+/* Table Header */
+th {
+  background: linear-gradient(45deg, #0d6efd, #00c6ff);
+  color: white;
+  padding: 12px;
+  text-align: left;
+  font-size: 14px;
+}
+
+/* Table Data */
+td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+/* Row Hover */
+tr:hover {
+  background: #f1f9ff;
+}
+
+/* 🔷 EDIT BUTTON */
+button {
+  padding: 6px 12px;
+  background: #ffc107;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #000;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #e0a800;
+  transform: scale(1.05);
+}
+
+/* 🔷 MODAL BACKGROUND */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* 🔷 MODAL BOX */
+.modal-content {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  width: 350px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  animation: slideUp 0.3s ease-in-out;
+}
+
+/* Modal Title */
+.modal-content h3 {
+  margin-bottom: 15px;
+  color: #1e293b;
+}
+
+/* Modal Inputs */
+.modal-content input,
+.modal-content select {
+  width: 100%;
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* Modal Buttons */
+.modal-content button {
+  margin-top: 10px;
+  width: 100%;
+}
+
+/* UPDATE BUTTON */
+.modal-content button:first-child {
+  background: #28a745;
+  color: white;
+}
+
+.modal-content button:first-child:hover {
+  background: #218838;
+}
+
+/* CANCEL BUTTON */
+.modal-content button:last-child {
+  background: #dc3545;
+  color: white;
+}
+
+.modal-content button:last-child:hover {
+  background: #c82333;
+}
+
+/* 🔷 ANIMATIONS */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

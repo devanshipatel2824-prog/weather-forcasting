@@ -1,0 +1,11 @@
+<app-user-header></app-user-header>
+<h2>🌍 Available Weather Stations</h2>
+
+<div class="station-card" *ngFor="let s of stations">
+    <h3>{{ s.stationName }}</h3>
+    <p>📍 {{ s.location }}</p>
+    <p>🌡 Lat: {{ s.latitude }} | Long: {{ s.longitude }}</p>
+    <p>Status: {{ s.status }}</p>
+    <button (click)="viewWeather(s.id)">View Weather</button>
+</div>
+<app-user-footer></app-user-footer>

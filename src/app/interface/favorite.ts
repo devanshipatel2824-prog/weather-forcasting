@@ -1,5 +1,7 @@
 export interface FavoriteCity {
-  id?: string;
+  id?: string;        // 🔥 important (Firestore doc id)
   city: string;
-  createdAt: Date;
+  country: string;
+  addedAt: any;
+  userId?: string;    // 🔥 user wise data
 }

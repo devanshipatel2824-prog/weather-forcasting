@@ -4,29 +4,31 @@
   <div class="top-header">
 
     <!-- Logo -->
-    <div class="logo">
-      🌤 WeatherCast
-    </div>
+    <div class="logo">🌤 WeatherCast</div>
 
-    <!-- Login Register -->
+    <!-- Login/Register / Logout -->
     <div class="icons">
-      <a routerLink="/user/user-login" class="btn signin-btn">Sign In</a>
-      <a routerLink="/user/user-registration" class="btn register-btn">Register</a>
+      <ng-container *ngIf="!loggedInUser">
+        <a routerLink="/user/user-login" class="btn signin-btn">Sign In</a>
+        <a routerLink="/user/user-registration" class="btn register-btn">Register</a>
+      </ng-container>
+      <ng-container *ngIf="loggedInUser">
+        <span>Welcome, {{ loggedInUser.name }} ({{ loggedInUser.role }})</span>
+        <button class="btn logout-btn" (click)="logout()">Logout</button>
+      </ng-container>
     </div>
 
   </div>
 
   <!-- MENU BAR -->
   <div class="menu-bar">
-
-    <a routerLink="/user/user-home">Home</a>
-    <a routerLink="/user/weather-search">Weather Search</a>
-    <a routerLink="/user/weather-forcast">Forcast</a>
-    <a routerLink="/user/history">Search Weather</a>
-    <a routerLink="/user/favorites">Favorites</a>
-    <a routerLink="/user/about">About</a>
-    <a routerLink="/user/contact">Contact</a>
-
+    <a routerLink="/user/user-home" [class.disabled]="!loggedInUser">Home</a>
+    <a routerLink="/user/weather-search" [class.disabled]="!loggedInUser">Weather Search</a>
+    <a routerLink="/user/weather-forcast" [class.disabled]="!loggedInUser">Forecast</a>
+    <a routerLink="/user/favorites-city" [class.disabled]="!loggedInUser">Favorites</a>
+    <a routerLink="/user/view-alert" [class.disabled]="!loggedInUser">Alerts</a>
+    <a routerLink="/user/view-station">Weather Station</a>
+    <a routerLink="/user/contact">About</a>
   </div>
 
 </header>
