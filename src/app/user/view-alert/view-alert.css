@@ -1,0 +1,78 @@
+.alerts-container {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* 🔴 No alerts */
+.no-alerts {
+  text-align: center;
+  padding: 40px;
+  background: #f8f8f8;
+  border-radius: 10px;
+}
+
+.role-tag {
+  display: inline-block;
+  margin-top: 10px;
+  background: #ddd;
+  padding: 5px 12px;
+  border-radius: 20px;
+}
+
+/* 🔥 Alert Cards */
+.alert-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.alert-card {
+  background: #ffffff;
+  border-left: 6px solid #4caf50;
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
+
+.alert-card:hover {
+  transform: scale(1.02);
+}
+
+/* header */
+.alert-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.alert-date {
+  font-size: 12px;
+  color: gray;
+}
+
+/* message */
+.alert-message {
+  margin: 10px 0;
+  font-size: 15px;
+}
+
+/* footer */
+.alert-footer {
+  margin-top: 10px;
+}
+
+.badge {
+  background: #2196f3;
+  color: white;
+  padding: 4px 10px;
+  margin-right: 5px;
+  border-radius: 15px;
+  font-size: 12px;
+}

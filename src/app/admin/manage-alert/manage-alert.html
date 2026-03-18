@@ -1,0 +1,74 @@
+<div class="admin-layout">
+
+  <app-admin-sidebar></app-admin-sidebar>
+
+  <div class="admin-content">
+
+    <h2>📢 Manage Alerts</h2>
+
+    <!-- 🔶 CREATE ALERT -->
+    <div class="card">
+      <h3>Create New Alert</h3>
+
+      <form (ngSubmit)="createAlert()">
+
+        <input type="text" placeholder="Enter title" [(ngModel)]="newAlert.title" name="title" required />
+
+        <textarea placeholder="Enter message" [(ngModel)]="newAlert.message" name="message" required></textarea>
+
+        <!-- 🔥 Roles -->
+        <label>Select Roles:</label>
+        <div class="roles">
+          <label *ngFor="let role of rolesList">
+            <input type="checkbox" [value]="role" (change)="
+                $event.target.checked 
+                ? newAlert.roles.push(role) 
+                : newAlert.roles = newAlert.roles.filter(r => r !== role)
+              ">
+            {{role}}
+          </label>
+        </div>
+
+        <button type="submit">
+  {{ isEditMode ? 'Update Alert' : 'Create Alert' }}
+</button>
+      </form>
+    </div>
+
+    <!-- 🔶 ALERT LIST -->
+    <div class="card">
+      <h3>All Alerts</h3>
+
+      <table>
+        <tr>
+          <th>Title</th>
+          <th>Message</th>
+          <th>Roles</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+
+        <tr *ngFor="let alert of alerts">
+          <td>{{alert.title}}</td>
+          <td>{{alert.message}}</td>
+          <td>{{alert.roles}}</td>
+          <td>
+            <span [ngClass]="alert.status === 'Active' ? 'active' : 'inactive'">
+              {{alert.status}}
+            </span>
+          </td>
+          <td>
+            <button (click)="editAlertData(alert)">Edit</button>
+            <button (click)="deleteAlert(alert.id!)">Delete</button>
+          </td>
+        </tr>
+
+        <tr *ngIf="alerts.length === 0">
+          <td colspan="5">No alerts found</td>
+        </tr>
+
+      </table>
+    </div>
+
+  </div>
+</div>

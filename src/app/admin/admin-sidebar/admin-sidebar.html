@@ -1,0 +1,35 @@
+<div class="sidebar">
+
+  <div class="logo">
+    <h2>Admin Panel</h2>
+  </div>
+
+  <ul class="menu">
+
+    <li routerLink="/admin/admin-dashboard">
+      <span>👥</span> Dashboard
+    </li>
+
+    <li routerLink="/admin/manage-user">
+      <span>👥</span> Users
+    </li>
+
+    <li routerLink="/admin/manage-alert">
+      <span>🌦</span>Alerts
+    </li>
+
+    <li routerLink="/admin/weather-station">
+      <span>📅</span> Weather Station
+    </li>
+
+    <li routerLink="/admin/reports">
+      <span>📑</span> Reports
+    </li>
+
+    <li class="logout" (click)="logout()">
+      <span>🚪</span> Logout
+    </li>
+
+  </ul>
+
+</div>

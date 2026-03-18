@@ -1,0 +1,67 @@
+/* 🔷 Main Layout */
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+  background: #f4f7fb;
+}
+
+/* 🔷 Sidebar fix width */
+app-sidebar {
+  width: 250px;
+  flex-shrink: 0;
+}
+
+/* 🔷 Content beside sidebar */
+.dashboard-content {
+  flex: 1;
+  padding: 20px 30px;
+}
+
+/* 🔷 Heading */
+.dashboard-content h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* 🔷 Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Header */
+th {
+  background: linear-gradient(45deg, #007bff, #00c6ff);
+  color: white;
+  padding: 12px;
+  text-align: left;
+}
+
+/* Rows */
+td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+/* Hover effect */
+tr:hover {
+  background: #f1f9ff;
+}
+
+/* Button (future use) */
+button {
+  padding: 5px 10px;
+  border: none;
+  background: #ff4d4d;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #cc0000;
+}

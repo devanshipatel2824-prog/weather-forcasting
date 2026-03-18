@@ -1,0 +1,35 @@
+<div class="dashboard">
+
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+
+  <!-- Main Content -->
+  <div class="dashboard-content">
+
+    <h2>🌦 Weather Stations</h2>
+
+    <table>
+      <tr>
+        <th>Station Name</th>
+        <th>Location</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Installation Date</th>
+        <th>Status</th>
+      </tr>
+
+      <tr *ngFor="let station of stations">
+        <td>{{ station.stationName }}</td>
+        <td>{{ station.location }}</td>
+        <td>{{ station.latitude }}</td>
+        <td>{{ station.longitude }}</td>
+        <td>{{ station.installationDate | date:'shortDate' }}</td>
+        <td>{{ station.status }}</td>
+        <td>
+          <!-- future delete/edit -->
+        </td>
+      </tr>
+    </table>
+
+  </div>
+</div>

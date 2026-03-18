@@ -15,32 +15,35 @@ import { UserFooter } from "../user-footer/user-footer";
   styleUrl: './user-registration.css',
 })
 export class UserRegistration {
-user: User = {
-name: '',
-email: '',
-password: '',
-role: '',
-city: '',
-phone: '',
-createdAt: new Date()
-};
+  user: User = {
+    name: '',
+    email: '',
+    password: '',
+    role: '',
+    city: '',
+    phone: '',
+    createdAt: new Date(),
+    registeredAt: new Date(),
+  };
 
-constructor(
-private firebaseService: FirebaseService,
-private router: Router
-){}
+  constructor(
+    private firebaseService: FirebaseService,
+    private router: Router
+  ) { }
 
-  registerUser(){
+  registerUser() {
 
+    this.user.registeredAt = new Date();
+    this.user.status = 'pending';
     // NAME VALIDATION
-    if(!this.user.name){
+    if (!this.user.name) {
       alert("Please enter your name");
       return;
     }
 
     // EMAIL VALIDATION
-    const emailPattern=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if(!emailPattern.test(this.user.email)){
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(this.user.email)) {
       alert("Enter valid email address");
       return;
     }
@@ -48,38 +51,44 @@ private router: Router
 
 
     // CITY VALIDATION
-    if(!this.user.city){
+    if (!this.user.city) {
       alert("Please enter city");
       return;
     }
 
     // PHONE VALIDATION
-    const phonePattern=/^[0-9]{10}$/;
-    if(!phonePattern.test(this.user.phone)){
+    const phonePattern = /^[0-9]{10}$/;
+    if (!phonePattern.test(this.user.phone)) {
       alert("Enter valid 10 digit phone number");
       return;
     }
 
     // ROLE VALIDATION
-    if(!this.user.role){
+    if (!this.user.role) {
       alert("Please select role");
       return;
     }
 
-    // SAVE DATA TO FIREBASE
-    this.firebaseService
-    .addDocument(FirebaseCollections.Users,this.user)
-    .then(()=>{
-
-      alert("Registration Successful");
-
-      this.router.navigate(['user/user-login']);
-
+  this.firebaseService.addDocument(FirebaseCollections.Users, this.user)
+    .then(() => {
+      alert("Registration successful! Please login after admin approval.");
+      this.router.navigate(['/user/user-login']); // redirect to login
     })
-    .catch((error)=>{
-      console.error(error);
-      alert("Error while registering");
-    });
+    .catch(err => console.error(err));
+  }
+  showToast(message: string) {
+
+    const toast = document.getElementById("liveToast");
+
+    if (toast) {
+
+      toast.querySelector(".toast-body")!.textContent = message;
+
+      const toastBootstrap = new (window as any).bootstrap.Toast(toast);
+
+      toastBootstrap.show();
+
+    }
 
   }
 

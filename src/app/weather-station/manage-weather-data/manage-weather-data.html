@@ -1,0 +1,40 @@
+<div class="dashboard">
+
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+
+  <!-- Main content -->
+  <div class="main-content">
+    <h2>Weather Data Records</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Station ID</th>
+          <th>Temperature</th>
+          <th>Humidity</th>
+          <th>Wind Speed</th>
+          <th>Rainfall</th>
+          <th>Pressure</th>
+          <th>Date/Time</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let wd of weatherData">
+          <td>{{ wd.stationId }}</td>
+          <td>{{ wd.temperature }} °C</td>
+          <td>{{ wd.humidity }}%</td>
+          <td>{{ wd.windSpeed }} m/s</td>
+          <td>{{ wd.rainfall }} mm</td>
+          <td>{{ wd.pressure }} hPa</td>
+          <td>{{ wd.dateTime | date:'short' }}</td>
+          <td>
+            <!-- <button (click)="deleteData(wd.id!)">Delete</button> -->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

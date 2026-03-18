@@ -1,0 +1,22 @@
+<app-user-header></app-user-header>
+<div *ngIf="stationData" class="weather-container">
+
+    <h2>🌦 Weather Details</h2>
+
+    <h3>{{ stationData.stationName }}</h3>
+
+    <p>📍 <b>{{ stationData.location }}</b></p>
+    <p>🌡 Latitude: {{ stationData.latitude }}</p>
+    <p>🌡 Longitude: {{ stationData.longitude }}</p>
+
+    <!-- Status Badge -->
+    <span class="status" [ngClass]="stationData.status === 'Active' ? 'active' : 'inactive'">
+        {{ stationData.status }}
+    </span>
+
+    <!-- Back Button -->
+    <br>
+    <button class="back-btn" routerLink="/user/station-detail">⬅ Back</button>
+
+</div>
+<app-user-footer></app-user-footer>

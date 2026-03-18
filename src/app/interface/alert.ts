@@ -1,6 +1,8 @@
-export interface WeatherAlert {
+export interface Alert {
   id?: string;
   title: string;
   message: string;
-  createdAt: Date;
+  roles: string[];   // 🔥 array must
+  status: string;
+  createdAt: any;
 }

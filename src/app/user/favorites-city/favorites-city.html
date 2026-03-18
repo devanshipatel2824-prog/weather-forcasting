@@ -1,0 +1,26 @@
+<app-user-header></app-user-header>
+
+<div class="favorites-container">
+<h2>Favorite Cities</h2>
+
+<table>
+  <tr>
+    <th>City</th>
+    <th>Country</th>
+    <th>Added At</th>
+    <th>Action</th>
+  </tr>
+
+  <tr *ngFor="let fav of favorites">
+    <td>{{ fav.city }}</td>
+    <td>{{ fav.country }}</td>
+    <td>{{ fav.addedAt | date:'short' }}</td>
+    <td>
+      <button (click)="deleteFavorite(fav.id!)">Delete</button>
+    </td>
+  </tr>
+</table>
+
+</div>
+
+<app-user-footer></app-user-footer>

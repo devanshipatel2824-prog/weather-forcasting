@@ -1,0 +1,71 @@
+<div class="admin-layout">
+
+  <app-admin-sidebar></app-admin-sidebar>
+
+  <div class="admin-content">
+
+    <h2>Manage Users</h2>
+
+    <!-- 🔼 PENDING USERS -->
+    <h3>Pending Users</h3>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>City</th>
+        <th>Phone</th>
+        <th>Role</th>
+        <th>Action</th>
+      </tr>
+
+      <tr *ngFor="let user of pendingUsers">
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.city }}</td>
+        <td>{{ user.phone }}</td>
+        <td>{{ user.role }}</td>
+        <td>
+          <button (click)="approveUser(user.id!)">Approve</button>
+          <button (click)="rejectUser(user.id!)">Reject</button>
+        </td>
+      </tr>
+
+      <tr *ngIf="pendingUsers.length === 0">
+        <td colspan="6">No pending users</td>
+      </tr>
+    </table>
+
+    <!-- 🔽 PROCESSED USERS (APPROVED + REJECTED) -->
+    <h3>Approved / Rejected Users</h3>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>City</th>
+        <th>Role</th>
+        <th>Status</th>
+      </tr>
+
+      <tr *ngFor="let user of processedUsers">
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.city }}</td>
+        <td>{{ user.role }}</td>
+        <td>
+          <span [ngClass]="{
+            'approved': user.status === 'approved',
+            'rejected': user.status === 'rejected'
+          }">
+            {{ user.status }}
+          </span>
+        </td>
+      </tr>
+
+      <tr *ngIf="processedUsers.length === 0">
+        <td colspan="5">No processed users</td>
+      </tr>
+    </table>
+
+  </div>
+
+</div>

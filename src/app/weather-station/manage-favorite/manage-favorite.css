@@ -1,0 +1,61 @@
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f4f6f9;
+}
+
+
+app-admin-sidebar {
+  width: 250px;
+  min-width: 250px;
+}
+
+/* Content */
+.main-content {
+  margin-left: 250px;   /* 🔥 SAME as sidebar width */
+  padding: 20px;
+  width: calc(100% - 250px);  /* 🔥 IMPORTANT */
+}
+
+/* Table Design */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Header */
+th {
+  background: #3498db;
+  color: white;
+  padding: 14px;
+  text-align: left;
+  font-size: 15px;
+}
+
+/* Data */
+td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+/* Hover */
+tr:hover {
+  background: #f1f7ff;
+  transition: 0.3s;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-container {
+    margin-left: 0;
+  }
+
+  table {
+    font-size: 12px;
+  }
+}
