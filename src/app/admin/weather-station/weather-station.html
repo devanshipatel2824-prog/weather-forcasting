@@ -1,0 +1,72 @@
+<div class="admin-layout">
+
+  <app-admin-sidebar></app-admin-sidebar>
+
+  <div class="main-content">
+
+    <h2>🌦 Manage Weather Stations</h2>
+
+    <!-- 🔷 ADD FORM -->
+    <div class="form-container">
+      <input [(ngModel)]="station.stationName" placeholder="Station Name">
+      <input [(ngModel)]="station.location" placeholder="Location">
+      <input [(ngModel)]="station.latitude" placeholder="Latitude">
+      <input [(ngModel)]="station.longitude" placeholder="Longitude">
+      <input [(ngModel)]="station.installationDate" type="date">
+
+      <select [(ngModel)]="station.status">
+        <option>Active</option>
+        <option>Inactive</option>
+      </select>
+
+      <button (click)="addStation()">Add Station</button>
+    </div>
+
+    <!-- 🔷 TABLE -->
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Location</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+
+      <tr *ngFor="let s of stations">
+        <td>{{ s.stationName }}</td>
+        <td>{{ s.location }}</td>
+        <td>{{ s.latitude }}</td>
+        <td>{{ s.longitude }}</td>
+        <td>{{ s.installationDate }}</td>
+        <td>{{ s.status }}</td>
+        <td>
+          <button (click)="openEdit(s)">Edit</button>
+        </td>
+      </tr>
+    </table>
+
+    <!-- 🔷 EDIT POPUP -->
+    <div class="modal" *ngIf="showModal">
+      <div class="modal-content">
+        <h3>Edit Station</h3>
+
+        <input [(ngModel)]="editStation.stationName">
+        <input [(ngModel)]="editStation.location">
+        <input [(ngModel)]="editStation.latitude">
+        <input [(ngModel)]="editStation.longitude">
+        <input [(ngModel)]="editStation.installationDate" type="date">
+
+        <select [(ngModel)]="editStation.status">
+          <option>Active</option>
+          <option>Inactive</option>
+        </select>
+
+        <button (click)="updateStation()">Update</button>
+        <button (click)="closeModal()">Cancel</button>
+      </div>
+    </div>
+
+  </div>
+</div>

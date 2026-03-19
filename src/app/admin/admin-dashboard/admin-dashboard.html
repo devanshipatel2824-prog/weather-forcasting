@@ -1,0 +1,59 @@
+<div class="admin-layout">
+
+  <!-- SIDEBAR -->
+  <app-admin-sidebar></app-admin-sidebar>
+
+  <!-- MAIN CONTENT -->
+  <div class="dashboard-content">
+
+    <h1 class="title">Admin Dashboard</h1>
+
+    <!-- DASHBOARD CARDS -->
+    <div class="cards">
+
+      <div class="card">
+        <h3>Total Users</h3>
+        <p>{{totalUsers}}</p>
+      </div>
+
+      <div class="card">
+        <h3>Search History</h3>
+        <p>{{totalSearch}}</p>
+      </div>
+
+      <div class="card">
+        <h3>Favorite Cities</h3>
+        <p>{{totalFavorites}}</p>
+      </div>
+
+      <div class="card">
+        <h3>Weather Alerts</h3>
+        <p>{{totalAlerts}}</p>
+      </div>
+
+    </div>
+
+    <!-- RECENT ACTIVITY -->
+    <div class="table-section">
+
+      <h2>Recent Search History</h2>
+
+      <table>
+
+        <tr>
+          <th>City</th>
+          <th>Date</th>
+        </tr>
+
+        <tr *ngFor="let history of searchHistory">
+          <td>{{history.city}}</td>
+          <td>{{history.searchedAt | date:'short'}}</td>
+        </tr>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

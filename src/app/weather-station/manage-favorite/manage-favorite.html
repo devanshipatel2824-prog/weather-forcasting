@@ -1,0 +1,23 @@
+<div class="dashboard">
+
+  <app-sidebar></app-sidebar>
+
+  <div class="main-content">
+    <h2>⭐ User Favorite Cities</h2>
+
+    <table>
+      <tr>
+        <th>City</th>
+        <th>Country</th>
+        <th>Added At</th>
+      </tr>
+
+      <tr *ngFor="let fav of favorites">
+        <td>{{ fav.city }}</td>
+        <td>{{ fav.country }}</td>
+        <td>{{ fav.addedAt | date:'short' }}</td>
+      </tr>
+    </table>
+  </div>
+
+</div>

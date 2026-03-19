@@ -1,0 +1,87 @@
+/* Dashboard Layout */
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f8;
+}
+
+/* Sidebar styles come from your existing sidebar CSS */
+app-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+}
+
+/* Main content */
+.main-content {
+  margin-left: 250px;   /* 🔥 SAME as sidebar width */
+  padding: 20px;
+  width: calc(100% - 250px);  /* 🔥 IMPORTANT */
+}
+
+
+/* Page heading */
+.main-content h2 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.8rem;
+}
+
+/* Table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+thead tr {
+  background-color: #28a745; /* green header */
+  color: #fff;
+  text-align: left;
+}
+
+th, td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+  font-size: 0.95rem;
+}
+
+tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #dc3545; /* red delete */
+  color: white;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #c82333;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dashboard {
+    flex-direction: column;
+  }
+
+  app-sidebar {
+    width: 100%;
+  }
+
+  .main-content {
+    padding: 15px;
+    overflow-x: auto;
+  }
+
+  table th, table td {
+    padding: 10px;
+    font-size: 0.85rem;
+  }
+}

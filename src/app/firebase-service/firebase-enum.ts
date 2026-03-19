@@ -1,6 +1,8 @@
 export enum FirebaseCollections {
+  Users = 'users',
+  SearchHistory = 'history',
   Favorites = 'favorites',
-  SearchHistory = 'searchHistory',
-  Alerts = 'alerts',
-  Users = 'users'
+  WeatherStations = 'weatherStations',   // new
+  WeatherData = 'weatherData',
+  Alerts = 'alerts'
 }

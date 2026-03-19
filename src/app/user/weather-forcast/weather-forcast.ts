@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { WeatherService } from '../../firebase-service/weather-service';
 import { ForecastData } from '../../interface/weather-forcast';
 import { UserFooter } from "../user-footer/user-footer";
@@ -8,36 +8,37 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-weather-forcast',
+  standalone: true,
   imports: [UserFooter, UserHeader, CommonModule, FormsModule],
   templateUrl: './weather-forcast.html',
   styleUrl: './weather-forcast.css',
 })
 export class WeatherForcast {
-  city = ''
 
-  forecastData: ForecastData[] = []
+  city = '';
+  forecastData: ForecastData[] = [];
 
-  constructor(private weatherService: WeatherService) { }
+  constructor(
+    private weatherService: WeatherService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   searchForecast() {
 
-    if (!this.city) return
+    if (!this.city) return;
 
     this.weatherService.getForecast(this.city).subscribe({
 
       next: (data) => {
+        this.forecastData = data;
 
-        console.log("Forecast Data:", data)   // 👈 check this
-
-        this.forecastData = data
-
+        this.cdr.detectChanges(); // 🔥 UI refresh
       },
 
       error: (err) => {
-        console.error("Forecast Error:", err)
+        console.error(err);
       }
 
-    })
-
+    });
   }
 }

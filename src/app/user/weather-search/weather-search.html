@@ -6,16 +6,11 @@
   <!-- SEARCH BAR -->
   <div class="search-box">
 
-    <input
-      type="text"
-      placeholder="Enter city name..."
-      [(ngModel)]="city"
-    />
+    <input type="text" placeholder="Enter city name..." [(ngModel)]="city" />
 
-    <button (click)="searchWeather()">
-      Search
-    </button>
-
+<button (click)="searchWeather()" [disabled]="!isLoggedIn()">
+  Search
+</button>
   </div>
 
   <!-- MAP -->
@@ -45,27 +40,27 @@
     <div class="weather-grid">
 
       <div class="info-box">
-        🌡 Temperature
-        <span>{{weatherData.temperature}}°C</span>
+        <span>🌡 Temperature</span>
+        <span>{{weatherData.temperature}} °C</span>
       </div>
 
       <div class="info-box">
-        💧 Humidity
+        <span>💧 Humidity</span>
         <span>{{weatherData.humidity}}%</span>
       </div>
 
       <div class="info-box">
-        🌬 Wind Speed
+        <span>🌬 Wind Speed</span>
         <span>{{weatherData.windSpeed}} m/s</span>
       </div>
 
       <div class="info-box">
-        📍 Latitude
+        <span>📍 Latitude</span>
         <span>{{weatherData.latitude}}</span>
       </div>
 
       <div class="info-box">
-        📍 Longitude
+        <span>📍 Longitude</span>
         <span>{{weatherData.longitude}}</span>
       </div>
 
@@ -74,7 +69,15 @@
   </div>
 
   }
+  <div class="weather-card" *ngIf="weatherData">
 
+  <!-- existing weather data here -->
+
+  <button (click)="addFavorite()" class="favorite-btn">
+    ⭐ Add to Favorite
+  </button>
+
+</div>
 </div>
 
 <app-user-footer></app-user-footer>

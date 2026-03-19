@@ -5,94 +5,28 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FavoriteCity } from '../../interface/favorite';
 import { SearchHistory } from '../../interface/history';
-import { WeatherAlert } from '../../interface/alert';
+// import { WeatherAlert } from '../../interface/alert';
 import { FirebaseService } from '../../firebase-service/firebase-service';
+import { UserHeader } from "../user-header/user-header";
+import { UserFooter } from "../user-footer/user-footer";
 
 @Component({
   selector: 'app-user-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, UserHeader, UserFooter],
   templateUrl: './user-dashboard.html',
   styleUrl: './user-dashboard.css',
 })
-export class UserDashboard implements OnInit {
+export class UserDashboard  {
 
-  city: string = '';
-  weather?: WeatherData;
-
-  favorites: FavoriteCity[] = [];
-  history: SearchHistory[] = [];
-  alerts: WeatherAlert[] = [];
-
-  constructor(
-    private weatherService: WeatherService,
-    private firebaseService: FirebaseService
+  stations: any[] = [];
+weather: any[] = [];
+constructor(
+    private firebaseService: FirebaseService,
+    // private cdr: ChangeDetectorRef
   ) {}
-
-  ngOnInit(): void {
-    this.loadFavorites();
-    this.loadHistory();
-    this.loadAlerts();
-  }
-
-  // ======================
-  // 🌦 SEARCH WEATHER
-  // ======================
-
-  search() {
-    if (!this.city) return;
-
-    this.weatherService.getWeather(this.city).subscribe({
-      next: (data) => {
-        this.weather = data;
-
-        // Save search history using new method
-        this.firebaseService.addHistory(this.city);
-
-        this.loadHistory();
-      },
-      error: (err) => {
-        console.error('Weather API Error', err);
-      }
-    });
-  }
-
-  // ======================
-  // ⭐ ADD FAVORITE
-  // ======================
-
-  addToFavorites() {
-    if (!this.weather) return;
-
-    this.firebaseService.addFavorite(this.weather.city)
-      .then(() => this.loadFavorites());
-  }
-
-  // ======================
-  // 📥 LOAD DATA
-  // ======================
-
-  loadFavorites() {
-    this.firebaseService.getFavorites()
-      .subscribe(res => this.favorites = res);
-  }
-
-  loadHistory() {
-    this.firebaseService.getHistory()
-      .subscribe(res => this.history = res);
-  }
-
-  loadAlerts() {
-    this.firebaseService.getAlerts()
-      .subscribe(res => this.alerts = res);
-  }
-
-  // ======================
-  // ❌ DELETE FAVORITE
-  // ======================
-
-  deleteFavorite(id: string) {
-    this.firebaseService.deleteDocument('favorites' as any, id)
-      .then(() => this.loadFavorites());
-  }
+async ngOnInit() {
+  this.stations = await this.firebaseService.getStations();
+  // this.weather = await this.firebaseService.getAllWeatherData();
+}
 }

@@ -14,19 +14,22 @@ export class WeatherService {
   constructor(private http: HttpClient) { }
 
   getWeather(city: string): Observable<WeatherData> {
-    return this.http.get<any>(`${this.baseUrl}?q=${city},IN&appid=${this.apiKey}&units=metric`)
-      .pipe(
-        map(res => ({
+    const url = `${this.baseUrl}?q=${city},IN&appid=${this.apiKey}&units=metric`;
+
+    return this.http.get<any>(url).pipe(
+      map(res => {
+        return {
           city: res.name,
           temperature: res.main.temp,
           humidity: res.main.humidity,
           windSpeed: res.wind.speed,
-          description: res.weather[0].description,
-          icon: `https://openweathermap.org/img/wn/${res.weather[0].icon}@2x.png`,
+          description: res.weather[0]?.description || '',
+          icon: `https://openweathermap.org/img/wn/${res.weather[0]?.icon}@2x.png`,
           latitude: res.coord.lat,
           longitude: res.coord.lon
-        }))
-      );
+        } as WeatherData;
+      })
+    );
   }
   getForecast(city: string): Observable<any[]> {
 
