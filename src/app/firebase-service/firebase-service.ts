@@ -13,12 +13,12 @@ import {
   query,
   updateDoc,
 } from '@angular/fire/firestore';
-import { Firestore } from '@angular/fire/firestore';
 import { Observable, from, map } from 'rxjs';
 import { FirebaseCollections } from '../firebase-service/firebase-enum';
 import { FavoriteCity } from '../interface/favorite';
 import { SearchHistory } from '../interface/history';
 import { WeatherAlert } from '../interface/alert';
+import { Firestore } from 'firebase/firestore';
 // import { FavoriteCity } from '../../interface/favorite';
 // import { SearchHistory } from '../../interface/history';
 // import { WeatherAlert } from '../../interface/alert';
@@ -42,7 +42,7 @@ export class FirebaseService {
 
     return from(getDocs(collectionQuery)).pipe(
       map((snapshot) =>
-        snapshot.docs.map((doc) => ({
+        snapshot.docs.map((doc: { id: any; data: () => any; }) => ({
           id: doc.id,
           ...doc.data(),
         })) as unknown as T[]

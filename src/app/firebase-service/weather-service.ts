@@ -66,4 +66,20 @@ export class WeatherService {
     )
 
   }
+  getWeatherByCoords(lat: number, lon: number): Observable<WeatherData> {
+  return this.http.get<any>(
+    `${this.baseUrl}?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=metric`
+  ).pipe(
+    map(res => ({
+      city: res.name,
+      temperature: res.main.temp,
+      humidity: res.main.humidity,
+      windSpeed: res.wind.speed,
+      description: res.weather[0].description,
+      icon: `https://openweathermap.org/img/wn/${res.weather[0].icon}@2x.png`,
+      latitude: res.coord.lat,
+      longitude: res.coord.lon
+    }))
+  );
+}
 }

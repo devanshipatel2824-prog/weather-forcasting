@@ -7,6 +7,8 @@ import { UserRegistration } from './user/user-registration/user-registration';
 import { UserLogin } from './user/user-login/user-login';
 import { WeatherSearch } from './user/weather-search/weather-search';
 import { WeatherForcast } from './user/weather-forcast/weather-forcast';
+import { Map } from 'leaflet';
+
 
 export const routes: Routes = [
 
@@ -19,5 +21,6 @@ export const routes: Routes = [
     { path: 'user/user-registration', component: UserRegistration },
     {path:'user/user-login',component:UserLogin},
     {path:'user/weather-search',component:WeatherSearch},
-    {path:'user/weather-forcast',component:WeatherForcast}
+    {path:'user/weather-forcast',component:WeatherForcast},
+    { path:'user/map',component:Map}
 ];
