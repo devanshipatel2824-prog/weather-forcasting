@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   CollectionReference,
   DocumentData,
@@ -30,6 +30,7 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class FirebaseService {
+  getStationById: any;
   constructor(private firestore: Firestore, private router: Router) { }
 
   canActivate(): boolean {
@@ -179,10 +180,14 @@ export class FirebaseService {
   // -----------------------------
   // Search History
   // -----------------------------
+  
+
   addHistory(city: string) {
-    return this.addDocument(FirebaseCollections.SearchHistory, {
-      city,
-      searchedAt: new Date()
+    const ref = collection(this.firestore, 'searchHistory');
+
+    return addDoc(ref, {
+      city: city,
+      date: new Date()
     });
   }
 
