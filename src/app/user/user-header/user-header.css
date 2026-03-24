@@ -1,64 +1,172 @@
-.main-header{
-width:100%;
-position:sticky;
-top:0;
-z-index:1000;
-background:white;
-box-shadow:0 2px 8px rgba(0,0,0,0.1);
+/* MAIN HEADER */
+.main-header {
+  width: 100%;
+  position: fixed; /* ✅ sticky on top */
+  top: 0;
+  left: 0;
+  z-index: 1000;
+
+  /* ✅ transparent initially */
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+
+  transition: 0.3s ease;
 }
 
-/* Top Header */
-
-.top-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 40px;
-background:#1e88e5;
-color:white;
+/* 🔥 SCROLL EFFECT (solid background) */
+.main-header.scrolled {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-.logo{
-font-size:24px;
-font-weight:bold;
+/* TOP HEADER */
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+
+  /* transparent overlay */
+  background: transparent;
+  color: rgb(3, 3, 3);
 }
 
-/* Buttons */
-
-.icons .btn{
-padding:8px 18px;
-border-radius:6px;
-text-decoration:none;
-margin-left:10px;
-font-weight:600;
+/* LOGO */
+.logo {
+  font-size: 24px;
+  font-weight: bold;
 }
 
-.signin-btn{
-background:white;
-color:#1e88e5;
+/* BUTTONS */
+.icons .btn {
+  padding: 8px 18px;
+  border-radius: 6px;
+  text-decoration: none;
+  margin-left: 10px;
+  font-weight: 600;
+  transition: 0.3s;
 }
 
-.register-btn{
-background:#ffd54f;
-color:black;
+/* buttons style */
+.signin-btn {
+  background: rgba(255,255,255,0.9);
+  color: #1e88e5;
 }
 
-/* Menu bar */
-
-.menu-bar{
-display:flex;
-justify-content:center;
-gap:35px;
-padding:12px;
-background:#f5f5f5;
+.register-btn {
+  background: #ffd54f;
+  color: black;
 }
 
-.menu-bar a{
-text-decoration:none;
-font-weight:500;
-color:#333;
+.logout-btn {
+  background: #ff5252;
+  color: white;
 }
 
-.menu-bar a:hover{
-color:#1e88e5;
+/* MENU BAR */
+.menu-bar {
+  display: flex;
+  justify-content: center;
+  gap: 35px;
+  padding: 12px;
+
+  background: transparent;
+}
+
+/* MENU LINKS */
+.menu-bar a {
+  text-decoration: none;
+  font-weight: 500;
+  color: rgb(0, 0, 0);
+  position: relative;
+}
+
+/* HOVER EFFECT */
+.menu-bar a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: #ffd54f;
+  transition: 0.3s;
+}
+
+.menu-bar a:hover::after {
+  width: 100%;
+}
+
+/* SCROLL COLOR CHANGE */
+.main-header.scrolled .menu-bar a {
+  color: #333;
+}
+
+.main-header.scrolled .top-header {
+  color: #333;
+}
+
+/* serach section */
+
+/* SEARCH BOX */
+.search-container {
+  position: relative;
+  width: 350px;
+}
+
+/* SEARCH BAR */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 30px;
+  padding: 5px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 10px 15px;
+  border-radius: 30px;
+  font-size: 15px;
+  background: transparent;
+}
+
+.search-bar button {
+  border: none;
+  
+  color: white;
+  padding: 10px 15px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* DROPDOWN */
+.suggestions {
+  position: absolute;
+  width: 100%;
+  background: white;
+  border-radius: 15px;
+  margin-top: 5px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.item {
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.item:hover {
+  background: #f1f1f1;
+}
+
+.search-bar button img {
+  width: 18px;
+  height: 18px;
 }

@@ -23,7 +23,7 @@ stationId: string = '';
   ngOnInit() {
     this.stationId = this.route.snapshot.paramMap.get('id') || '';
 
-    this.firebaseService.getStationById(this.stationId).subscribe(data => {
+    this.firebaseService.getStationById(this.stationId).subscribe((data: any) => {
       this.stationData = data;
     });
   }

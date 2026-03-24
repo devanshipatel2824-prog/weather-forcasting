@@ -1,105 +1,193 @@
-.home-container {
-  font-family: 'Arial', sans-serif;
-  background: linear-gradient(to bottom, #6dd5fa, #ffffff);
-  min-height: 100vh;
-  color: #333;
+/* HERO SECTION */
+.weather-hero {
+  height: 500px;
+    margin-top: 93px;
+  /* ✅ FIXED BACKGROUND */
+  background: url('/9_5_am.jpg') no-repeat center center;
+  background-size: cover;
+background-position: center -8%;
+  position: relative;
   text-align: center;
+  padding-top: 60px;
+  overflow: hidden;
 }
 
-/* Hero Section */
-.hero {
+/* ✅ LIGHT OVERLAY (for readability) */
+.weather-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background: rgba(255, 255, 255, 0.4); */
+  z-index: 1;
+}
+
+/* ✅ CONTENT ABOVE OVERLAY */
+.weather-hero * {
+  position: relative;
+  z-index: 2;
+}
+
+/* LOCATION */
+.location h2 {
+  font-size: 32px;
+  margin: 0;
+}
+
+.location p {
+  margin: 0;
+  color: #555;
+}
+
+/* CENTER CONTENT */
+.center-content {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  padding: 80px 50px;
-  background: linear-gradient(to right, #2980b9, #6dd5fa);
-  border-radius: 15px;
-  margin: 3px;
-  color: #fff;
+  margin-top: 40px;
+  gap: 40px;
 }
 
-.hero-text h1 {
-  font-size: 50px;
-  margin-bottom: 20px;
+/* ICON */
+.weather-icon-box img {
+  width: 210px;
 }
 
-.hero-text p {
-  font-size: 20px;
-  margin-bottom: 30px;
-}
-
-.btn {
-  padding: 15px 35px;
-  font-size: 18px;
-  background-color: #ffec00;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: 0.3s;
+/* TEMP */
+.temp-box h1 {
+  font-size: 80px;
+  margin: 0;
   font-weight: bold;
 }
 
-.btn:hover {
-  background-color: #ffd700;
+.desc {
+  font-size: 18px;
+  letter-spacing: 1px;
 }
 
-/* Hero Image */
-.hero-image img {
-  width: 400px;
-  max-width: 100%;
+.time {
+  font-size: 14px;
+  color: #444;
 }
 
-/* Weather Search */
-.weather-search {
-  margin: 50px auto;
+/* CARDS */
+.weather-cards {
   display: flex;
   justify-content: center;
+  gap: 25px;
+  margin-top: -80px;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 260px;
+  background: #f5f7fa;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.card h4 {
+  margin-bottom: 15px;
+}
+
+/* TEMP CARD */
+.temp-box {
+  background: #e9edf2;
+  padding: 15px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.temp-box img {
+  width: 50px;
+}
+
+.minmax p {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+}
+
+/* HUMIDITY GAUGE */
+.gauge {
+  position: relative;
+  width: 150px;
+  height: 80px;
+  margin: auto;
+}
+
+.semi-circle {
+  width: 150px;
+  height: 80px;
+  background: conic-gradient(
+    #cfd8dc 0deg,
+    #90caf9 90deg,
+    #42a5f5 180deg
+  );
+  border-radius: 150px 150px 0 0;
+}
+
+.needle {
+  width: 2px;
+  height: 70px;
+  background: black;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform-origin: bottom;
+}
+
+.value {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 24px;
+}
+
+/* RAIN */
+.rain-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 15px;
 }
 
-.weather-search input {
-  padding: 15px 20px;
-  border-radius: 30px;
-  border: none;
-  width: 300px;
-  outline: none;
-  font-size: 16px;
+.drop {
+  width: 30px;
+  height: 50px;
+  border: 2px solid #4da6ff;
+  border-radius: 50% 50% 60% 60%;
 }
 
-.weather-search button {
-  padding: 15px 30px;
-  border-radius: 30px;
-  border: none;
-  background-color: #ffec00;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
+/* WIND */
+.wind-box {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
-.weather-search button:hover {
-  background-color: #ffd700;
+.compass {
+  width: 80px;
+  height: 80px;
+  border: 2px dashed #ccc;
+  border-radius: 50%;
+  position: relative;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-  .hero {
-    flex-direction: column;
-    padding: 50px 20px;
-  }
+.arrow {
+  width: 2px;
+  height: 40px;
+  background: #007bff;
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform-origin: bottom;
+}
 
-  .hero-text h1 {
-    font-size: 36px;
-  }
-
-  .hero-text p {
-    font-size: 16px;
-  }
-
-  .hero-image img {
-    width: 250px;
-  }
-
-  .weather-search input {
-    width: 200px;
-  }
+.wind-text h2 {
+  margin: 0;
 }
