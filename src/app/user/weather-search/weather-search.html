@@ -1,83 +1,81 @@
-<app-user-header></app-user-header>
-
-<div class="weather-container">
 
 
-  <!-- SEARCH BAR -->
-  <div class="search-box">
+<div class="app-container">
 
-    <input type="text" placeholder="Enter city name..." [(ngModel)]="city" />
-
-<button (click)="searchWeather()" [disabled]="!isLoggedIn()">
-  Search
-</button>
-  </div>
-
-  <!-- MAP -->
+  <!-- 🗺 MAP -->
   <div id="map"></div>
+  <canvas id="rain-canvas"></canvas>
 
-  <!-- WEATHER DATA -->
-  @if(weatherData){
+  <!-- ☰ MENU BUTTON -->
+<button class="menu-btn" (click)="toggleMenu()">Weather Map</button>
 
-  <div class="weather-card">
-
-    <div class="weather-header">
-
-      <h2>{{weatherData.city}}</h2>
-
-      <img [src]="weatherData.icon">
-
-    </div>
-
-    <p class="temperature">
-      {{weatherData.temperature}} °C
-    </p>
-
-    <p class="description">
-      {{weatherData.description}}
-    </p>
-
-    <div class="weather-grid">
-
-      <div class="info-box">
-        <span>🌡 Temperature</span>
-        <span>{{weatherData.temperature}} °C</span>
-      </div>
-
-      <div class="info-box">
-        <span>💧 Humidity</span>
-        <span>{{weatherData.humidity}}%</span>
-      </div>
-
-      <div class="info-box">
-        <span>🌬 Wind Speed</span>
-        <span>{{weatherData.windSpeed}} m/s</span>
-      </div>
-
-      <div class="info-box">
-        <span>📍 Latitude</span>
-        <span>{{weatherData.latitude}}</span>
-      </div>
-
-      <div class="info-box">
-        <span>📍 Longitude</span>
-        <span>{{weatherData.longitude}}</span>
-      </div>
-
-    </div>
-
+<!-- 🌦 FLOATING PANEL -->
+<!-- 🌦 FLOATING PANEL -->
+<div class="floating-panel" *ngIf="menuOpen">
+  <div class="panel-header">
+    Weather Maps
+    <span (click)="toggleMenu()">✖</span>
   </div>
 
-  }
-  <div class="weather-card" *ngIf="weatherData">
+  <div class="panel-content">
+    <ul>
+      <li (click)="setLayer('clouds')">☁ Satellite</li>
+      <li (click)="setLayer('rain')">🌧 Radar</li>
 
-  <!-- existing weather data here -->
+      <h4>🌬 Wind</h4>
+      <li (click)="setLayer('wind')">→ Speed</li>
 
-  <button (click)="addFavorite()" class="favorite-btn">
-    ⭐ Add to Favorite
-  </button>
+      <h4>🌡 Temperature</h4>
+      <li (click)="setLayer('temp')">→ Temp</li>
+
+      <h4>💧 Humidity</h4>
+      <li (click)="setLayer('humidity')">→ Humidity</li>
+
+      <h4>🌍 Pressure</h4>
+      <li (click)="setLayer('pressure')">→ Pressure</li>
+    </ul>
+  </div>
+</div>
+  <!-- 🔍 SEARCH BUTTON -->
+  
+<!-- 🔍 SEARCH BUTTON WITH IMAGE -->
+<button class="search-btn" (click)="toggleSearch()">
+  <img src="search.png" alt="Search" />
+</button>
+
+<!-- 🔎 FULL SCREEN SEARCH PANEL -->
+<div class="search-overlay" [class.open]="isSearchOpen">
+  <div class="search-box">
+    <h2>Search Weather</h2>
+    <input type="text" [(ngModel)]="city" placeholder="Enter city..." />
+    <button (click)="searchWeather()">Search</button>
+    <span class="close-btn" (click)="toggleSearch()">✖</span>
+  </div>
+</div>
+
+  <!-- 🎚 SLIDER -->
+  <div class="slider-box">
+    <input type="range" min="0" max="4"
+           [(ngModel)]="timeIndex"
+           (input)="changeTime()">
+  </div>
+
+  <!-- 📊 RIGHT PANEL -->
+  <div class="right-panel" *ngIf="weatherData">
+    <h2>{{weatherData.city}}</h2>
+    <p class="big-temp">{{weatherData.temperature}} °C</p>
+    <p class="desc">{{weatherData.description}}</p>
+
+    <div class="info">
+      <p>💧 {{weatherData.humidity}}%</p>
+      <p>🌬 {{weatherData.windSpeed}} m/s</p>
+      <p>📍 {{weatherData.latitude}}, {{weatherData.longitude}}</p>
+    </div>
+
+    <button (click)="addFavorite()" class="fav-btn">
+      ⭐ Add Favorite
+    </button>
+  </div>
 
 </div>
-</div>
 
-<app-user-footer></app-user-footer>

@@ -25,8 +25,7 @@ export class StationDetail implements OnInit {
     this.stationId = this.route.snapshot.paramMap.get('id') || '';
     console.log("Station ID:", this.stationId);
 
-    this.firebaseService.getStationById(this.stationId).subscribe(data => {
-      console.log("Station Data:", data);
+    this.firebaseService.getStationById(this.stationId).subscribe((data: any) => {
       this.stationData = data;
       this.cdr.detectChanges();
     });

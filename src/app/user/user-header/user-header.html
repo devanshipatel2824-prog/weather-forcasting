@@ -3,22 +3,51 @@
   <!-- TOP HEADER -->
   <div class="top-header">
 
-    <!-- Logo -->
-    <div class="logo">🌤 WeatherCast</div>
+  <!-- Logo -->
+  <div class="logo">WeatherCast</div>
 
-    <!-- Login/Register / Logout -->
-    <div class="icons">
-      <ng-container *ngIf="!loggedInUser">
-        <a routerLink="/user/user-login" class="btn signin-btn">Sign In</a>
-        <a routerLink="/user/user-registration" class="btn register-btn">Register</a>
-      </ng-container>
-      <ng-container *ngIf="loggedInUser">
-        <span>Welcome, {{ loggedInUser.name }} ({{ loggedInUser.role }})</span>
-        <button class="btn logout-btn" (click)="logout()">Logout</button>
-      </ng-container>
-    </div>
+  <!-- 🔍 SEARCH BAR -->
+  <div class="search-container">
 
+  <div class="search-bar">
+    <input 
+      type="text"
+      placeholder="Search city, area, pincode..."
+      [(ngModel)]="searchCity"
+      (input)="onSearchChange()"
+    />
+
+    <button (click)="searchWeather()">
+  <img src="search.png" alt="search" />
+</button>
   </div>
+
+  <!-- 🔥 AUTOCOMPLETE DROPDOWN -->
+  <div class="suggestions" *ngIf="suggestions.length">
+    <div 
+      class="item" 
+      *ngFor="let place of suggestions"
+      (click)="selectCity(place)"
+    >
+      {{place.name}}, {{place.state || ''}}, {{place.country}}
+    </div>
+  </div>
+
+</div>
+
+  <!-- Login/Register / Logout -->
+  <div class="icons">
+    <ng-container *ngIf="!loggedInUser">
+      <a routerLink="/user/user-login" class="btn signin-btn">Sign In</a>
+      <a routerLink="/user/user-registration" class="btn register-btn">Register</a>
+    </ng-container>
+    <ng-container *ngIf="loggedInUser">
+      <span>Welcome, {{ loggedInUser.name }} ({{ loggedInUser.role }})</span>
+      <button class="btn logout-btn" (click)="logout()">Logout</button>
+    </ng-container>
+  </div>
+
+</div>
 
   <!-- MENU BAR -->
   <div class="menu-bar">
@@ -28,7 +57,9 @@
     <a routerLink="/user/favorites-city" [class.disabled]="!loggedInUser">Favorites</a>
     <a routerLink="/user/view-alert" [class.disabled]="!loggedInUser">Alerts</a>
     <a routerLink="/user/view-station">Weather Station</a>
-    <a routerLink="/user/contact">About</a>
+   
+    
+    
   </div>
 
 </header>

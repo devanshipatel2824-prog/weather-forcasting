@@ -1,22 +1,103 @@
+
 <app-user-header></app-user-header>
 
-<div class="home-container">
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-text">
-      <h1>Stay Ahead of the Weather</h1>
-      <p>Accurate weather forecasts at your fingertips. Plan your day confidently!</p>
-      <button class="btn">Check Weather</button>
-    </div>
-    <div class="hero-image">
-      <img src="img1.jpg" alt="Weather Illustration">
-    </div>
-  </section>
+<div class="weather-container">
 
-  <!-- Quick Weather Search -->
-  <section class="weather-search">
-    <input type="text" placeholder="Enter city..." />
-    <button>Get Forecast</button>
-  </section>
+  
+  <!-- CONDITION TEXT -->
+  <div class="condition">
+    {{weatherData?.weather[0]?.main | uppercase}}
+  </div>
+
+  <!-- HERO SECTION -->
+  <div class="weather-hero">
+
+    <!-- LOCATION -->
+    <div class="location">
+      <span class="pin">📍</span>
+      <h2>{{weatherData?.name}}</h2>
+      <p>{{weatherData?.sys?.country}}</p>
+    </div>
+
+    <!-- CENTER CONTENT -->
+    <div class="center-content">
+
+      <!-- ICON -->
+      <div class="weather-icon-box">
+        <img src="partlycloudy.jpg" />
+      </div>
+
+      <!-- TEMP -->
+      <div class="temp-box">
+        <h1>{{weatherData?.main?.temp}}°C</h1>
+        <p class="desc">{{weatherData?.weather[0]?.main}}</p>
+
+        <span class="time">
+          {{ currentTime | date:'hh:mm a, MMM d, y' }}
+        </span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CARDS -->
+  <div class="weather-cards">
+
+    <!-- TEMP -->
+    <div class="card">
+      <h4>🌡 Temp (Min/Max)</h4>
+
+      <div class="temp-box small">
+        <img src="partlycloudy.png" />
+        <span>PARTLY CLOUDY</span>
+      </div>
+
+      <div class="minmax">
+        <p>Max <span>{{weatherData?.main?.temp_max}}°C</span></p>
+        <p>Min <span>{{weatherData?.main?.temp_min}}°C</span></p>
+      </div>
+    </div>
+
+    <!-- HUMIDITY -->
+    <div class="card">
+      <h4>💧 Humidity</h4>
+
+      <div class="gauge">
+        <div class="semi-circle"></div>
+        <div class="needle" [style.transform]="'rotate(' + humidityRotate + 'deg)'"></div>
+        <div class="value">{{weatherData?.main?.humidity}}%</div>
+      </div>
+    </div>
+
+    <!-- RAIN -->
+    <div class="card">
+      <h4>🌧 Rainfall</h4>
+
+      <div class="rain-box">
+        <div class="drop"></div>
+        <span>{{weatherData?.rain?.['1h'] || 0}}%</span>
+      </div>
+    </div>
+
+    <!-- WIND -->
+    <div class="card">
+      <h4>🌬 Wind</h4>
+
+      <div class="wind-box">
+        <div class="compass">
+          <div class="arrow" [style.transform]="'rotate(' + windDeg + 'deg)'"></div>
+        </div>
+
+        <div class="wind-text">
+          <h2>{{weatherData?.wind?.speed}} km/h</h2>
+          <p>{{windDirection}}</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
 </div>
+
+
 <app-user-footer></app-user-footer>

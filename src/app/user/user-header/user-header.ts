@@ -12,6 +12,9 @@ import { FormsModule } from '@angular/forms';
 })
 export class UserHeader {
 isScrolled=false;
+searchCity: string = '';
+  http: any;
+suggestions: any[] = [];
 
 @HostListener('window:scroll',[])
 onScroll(){
@@ -31,5 +34,50 @@ this.isScrolled=window.scrollY>50;
     this.loggedInUser = null;
     this.router.navigate(['/user/user-login']);
   }
+
+
+
+API_KEY = '685efac5e35847415ea935663a61e193';
+
+
+
+
+// 🔍 LIVE SEARCH (autocomplete)
+onSearchChange() {
+  if (this.searchCity.length < 2) {
+    this.suggestions = [];
+    return;
+  }
+
+  this.http.get(`http://api.openweathermap.org/geo/1.0/direct?q=${this.searchCity}&limit=5&appid=${this.API_KEY}`)
+    .subscribe((data:any) => {
+      this.suggestions = data;
+    });
+}
+
+
+// ✅ SELECT FROM DROPDOWN
+selectCity(place: any) {
+  this.searchCity = place.name;
+  this.suggestions = [];
+
+  this.router.navigate(['/user/weather-search'], {
+    queryParams: {
+      lat: place.lat,
+      lon: place.lon
+    }
+  });
+}
+
+
+// 🔍 BUTTON SEARCH (fallback)
+searchWeather() {
+  if (!this.searchCity) return;
+
+  this.router.navigate(['/user/weather-search'], {
+    queryParams: { city: this.searchCity }
+  });
+}
+
 
 }

@@ -22,6 +22,7 @@ import { ManageFavorite } from './weather-station/manage-favorite/manage-favorit
 import { ViewStation } from './user/view-station/view-station';
 import { StationDetail } from './user/station-detail/station-detail';
 
+
 export const routes: Routes = [
 
     //USER ROUTES
@@ -39,6 +40,8 @@ export const routes: Routes = [
     { path: 'user/view-alert', component: ViewAlert },
     { path: 'user/view-station', component: ViewStation },
     { path: 'user/station-detail/:id', component: StationDetail },
+    // { path: 'user/show',component:Show},
+    
 
     //ADMIN ROUTE
     { path: 'admin/admin-login', component: AdminLogin },
