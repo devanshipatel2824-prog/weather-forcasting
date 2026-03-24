@@ -1,22 +1,23 @@
 <app-user-header></app-user-header>
-<div *ngIf="stationData" class="weather-container">
+<div class="weather-card" *ngIf="stationData as s">
 
-    <h2>🌦 Weather Details</h2>
+  <h2>{{ s.location }}</h2>
 
-    <h3>{{ stationData.stationName }}</h3>
+  <div class="temp">
+    {{ s.temperature || 31 }}°
+    <span>C / F</span>
+  </div>
 
-    <p>📍 <b>{{ stationData.location }}</b></p>
-    <p>🌡 Latitude: {{ stationData.latitude }}</p>
-    <p>🌡 Longitude: {{ stationData.longitude }}</p>
+  <p class="condition">☀️ {{ s.status }}</p>
 
-    <!-- Status Badge -->
-    <span class="status" [ngClass]="stationData.status === 'Active' ? 'active' : 'inactive'">
-        {{ stationData.status }}
-    </span>
-
-    <!-- Back Button -->
-    <br>
-    <button class="back-btn" routerLink="/user/station-detail">⬅ Back</button>
+  <div class="days">
+    <div class="day" *ngFor="let d of [1,2,3,4,5,6,7]">
+      <p>Day</p>
+      <p>🌤</p>
+      <p>32°</p>
+      <p class="low">22°</p>
+    </div>
+  </div>
 
 </div>
 <app-user-footer></app-user-footer>
