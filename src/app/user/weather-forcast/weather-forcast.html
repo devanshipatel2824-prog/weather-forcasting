@@ -2,55 +2,90 @@
 
 <div class="forecast-container">
 
-<h1>5 Day Weather Forecast</h1>
+    <!-- SEARCH -->
+    <div class="search-box">
+        <input [(ngModel)]="city" placeholder="Enter city..." />
+        <button (click)="searchWeather()">Search</button>
+    </div>
 
-<div class="search-box">
+    <div *ngIf="mapVisible" class="main-container">
 
-<input
-type="text"
-placeholder="Enter city name"
-[(ngModel)]="city"
-/>
+        <!-- LEFT PANEL -->
+        <div class="left-panel">
 
-<button (click)="searchForecast()">
-Search
-</button>
+            <!-- CURRENT WEATHER -->
+            <div class="current-weather-card">
+                <h2>{{weatherData.city}}</h2>
+                <div class="current-weather-details">
+                    <div>🌡 Temp: {{weatherData.temperature}}°C</div>
+                    <div>💨 Wind: {{weatherData.wind}} m/s</div>
+                    <div>💧 Humidity: {{weatherData.humidity}}%</div>
+                    <div>☁ Condition: {{weatherData.condition}}</div>
+                </div>
+            </div>
+
+            <!-- FORECAST -->
+            <div class="forecast-title">📅 5-Day Forecast</div>
+            <div class="forecast-scroll">
+                <div *ngFor="let f of forecastData" class="forecast-card">
+                    <div class="forecast-main">
+                        <div class="forecast-icon">☀️</div>
+                        <div class="forecast-basic">
+                            <h4>{{f.date}}</h4>
+                            <p>🌡 {{f.temperature}}°C</p>
+                            <p>☁ {{f.condition}}</p>
+                        </div>
+                        <button class="forecast-btn" (click)="openForecastModal(f)">View Details</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="right-panel">
+
+            <!-- MAP -->
+            <div class="map-box">
+                <div id="map"></div>
+            </div>
+
+            <!-- NEAREST STATIONS -->
+            <div class="stations-list">
+                <h3>📍 Nearest Stations</h3>
+                <div class="stations-grid">
+                    <div *ngFor="let st of nearestStations" class="station-card">
+                        <div class="station-name">{{st.name}}</div>
+                        <div class="station-temp">🌡 {{st.temp}}°C</div>
+                        <div class="station-wind">💨 {{st.wind}} m/s</div>
+                        <div class="station-distance">📏 {{st.distance}} km</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
-
-@if(forecastData.length > 0){
-
-<div class="forecast-grid">
-
-@for(day of forecastData; track day){
-
-<div class="forecast-card">
-
-<h3>{{day.date}}</h3>
-
-<img [src]="day.icon" class="icon">
-
-<p class="temp">{{day.temperature}}°C</p>
-
-<p class="desc">{{day.description}}</p>
-
-<div class="extra">
-
-<span>💧 {{day.humidity}}%</span>
-
-<span>🌬 {{day.windSpeed}} m/s</span>
-
-</div>
-
-</div>
-
-}
-
-</div>
-
-}
-
+<!-- 🔹 FORECAST MODAL -->
+<div class="forecast-modal" *ngIf="selectedForecast">
+    <div class="modal-overlay" (click)="closeForecastModal()"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Forecast Details – {{selectedForecast.date}}</h3>
+            <button class="close-btn" (click)="closeForecastModal()">✖</button>
+        </div>
+        <p>🌡 Temperature: {{selectedForecast.temperature}}°C</p>
+        <p>💨 Wind: {{selectedForecast.wind}} m/s</p>
+        <p>💧 Humidity: {{selectedForecast.humidity}}%</p>
+        <p>☁ Condition: {{selectedForecast.condition}}</p>
+        <p>🌅 Sunrise: {{selectedForecast.sunrise | date:'shortTime'}}</p>
+        <p>🌇 Sunset: {{selectedForecast.sunset | date:'shortTime'}}</p>
+        <p>🌡 Feels Like: {{selectedForecast.feels_like}}°C</p>
+        <p>🔽 Pressure: {{selectedForecast.pressure}} hPa</p>
+    </div>
 </div>
 
 <app-user-footer></app-user-footer>
