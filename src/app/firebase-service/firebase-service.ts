@@ -30,7 +30,7 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class FirebaseService {
-  getStationById: any;
+  // getStationById: any;
   constructor(private firestore: Firestore, private router: Router) { }
 
   canActivate(): boolean {
@@ -251,9 +251,12 @@ export class FirebaseService {
   public deleteWeatherStation(stationId: string) {
     return this.deleteDocument(FirebaseCollections.WeatherStations, stationId);
   }
-  // public getStationById(id: string): Observable<WeatherStation> {
-  //   return this.getDocument<WeatherStation>(FirebaseCollections.WeatherStations, id);
-  // }
+  getStationById(id: string) {
+    return this.getDocument<WeatherStation>(
+      FirebaseCollections.WeatherStations,
+      id
+    );
+  }
   // ===============================
   // WEATHER DATA
   // ===============================

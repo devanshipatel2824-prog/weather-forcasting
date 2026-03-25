@@ -80,4 +80,9 @@ export class WeatherService {
       })
     )
   }
+getNearbyStations(lat: number, lon: number) {
+  return this.http.get(
+    `https://api.openweathermap.org/data/2.5/find?lat=${lat}&lon=${lon}&cnt=5&appid=${this.apiKey}&units=metric`
+  );
+}
 }
