@@ -1,5 +1,3 @@
-
-
 <div class="app-container">
 
   <!-- 🗺 MAP -->
@@ -7,61 +5,103 @@
   <canvas id="rain-canvas"></canvas>
 
   <!-- ☰ MENU BUTTON -->
-<button class="menu-btn" (click)="toggleMenu()">Weather Map</button>
+  <div class="menu-btn" (click)="toggleMenu()">
+  Weather Maps
+  <span style="float:right"></span>
 
-<!-- 🌦 FLOATING PANEL -->
-<!-- 🌦 FLOATING PANEL -->
-<div class="floating-panel" *ngIf="menuOpen">
-  <div class="panel-header">
-    Weather Maps
-    <span (click)="toggleMenu()">✖</span>
-  </div>
+  <!-- 👇 SAME PANEL INSIDE BUTTON -->
+  <div class="floating-panel" *ngIf="menuOpen" (click)="$event.stopPropagation()">
 
-  <div class="panel-content">
-    <ul>
-      <li (click)="setLayer('clouds')">☁ Satellite</li>
-      <li (click)="setLayer('rain')">🌧 Radar</li>
+    <div class="panel-content">
+      <ul>
+       <li (click)="setLayer('clouds')">
+  <img src="satellite.png" width="18">
+  Satellite
+</li>
 
-      <h4>🌬 Wind</h4>
-      <li (click)="setLayer('wind')">→ Speed</li>
+<li (click)="setLayer('rain')">
+  <img src="radar (1).png" width="18">
+  Radar
+</li>
 
-      <h4>🌡 Temperature</h4>
-      <li (click)="setLayer('temp')">→ Temp</li>
+<li (click)="setLayer('wind')">
+  <img src="storm.png" width="18">
+  Speed
+</li>
 
-      <h4>💧 Humidity</h4>
-      <li (click)="setLayer('humidity')">→ Humidity</li>
+<li (click)="setLayer('temp')">
+  <img src="temprature (1).png" width="18">
+  Temprature
+</li>
 
-      <h4>🌍 Pressure</h4>
-      <li (click)="setLayer('pressure')">→ Pressure</li>
-    </ul>
+<li (click)="setLayer('humidity')">
+  <img src="humidity.png" width="18">
+  Humidity
+</li>
+
+<li (click)="setLayer('pressure')">
+  <img src="barometer (1).png" width="18">
+  Pressure
+</li>
+      </ul>
+    </div>
+
   </div>
 </div>
   <!-- 🔍 SEARCH BUTTON -->
-  
-<!-- 🔍 SEARCH BUTTON WITH IMAGE -->
-<button class="search-btn" (click)="toggleSearch()">
-  <img src="search.png" alt="Search" />
-</button>
 
-<!-- 🔎 FULL SCREEN SEARCH PANEL -->
-<div class="search-overlay" [class.open]="isSearchOpen">
-  <div class="search-box">
-    <h2>Search Weather</h2>
-    <input type="text" [(ngModel)]="city" placeholder="Enter city..." />
-    <button (click)="searchWeather()">Search</button>
-    <span class="close-btn" (click)="toggleSearch()">✖</span>
+  <!-- RIGHT SIDE SEARCH PANEL -->
+  <!-- 🔍 SEARCH ICON -->
+  <button class="search-btn" (click)="toggleSearch()">
+    🔍
+  </button>
+  <div class="search-panel" [class.open]="isSearchOpen">
+
+    <div class="search-header">
+      <h3>Search</h3>
+      <span (click)="toggleSearch()">✖</span>
+    </div>
+
+    <div class="search-box">
+
+  <input
+    type="text"
+    [(ngModel)]="city"
+    (input)="onSearchChange()"
+    placeholder="Search location..."
+  />
+
+  <!-- 🔥 Suggestions input niche -->
+  <div 
+    class="suggestions"
+    *ngIf="city && city.length >= 3 && suggestions.length > 0"
+  >
+    <div 
+      class="item"
+      *ngFor="let place of suggestions"
+      (click)="selectPlace(place)"
+    >
+      <b>{{place.display_name.split(',')[0]}}</b>
+      <span>{{place.display_name}}</span>
+    </div>
   </div>
+
 </div>
 
-  <!-- 🎚 SLIDER -->
-  <div class="slider-box">
-    <input type="range" min="0" max="4"
-           [(ngModel)]="timeIndex"
-           (input)="changeTime()">
+<!-- 📍 below -->
+<button class="location-btn" (click)="useCurrentLocation()">
+  📍 Show Your Location
+</button>
+
   </div>
 
+  <!-- 🎚 SLIDER -->
+  <!-- <div class="slider-box">
+    <input type="range" min="0" max="4" [(ngModel)]="timeIndex" (input)="changeTime()">
+  </div> -->
+
   <!-- 📊 RIGHT PANEL -->
-  <div class="right-panel" *ngIf="weatherData">
+  <!-- <div class="right-panel" *ngIf="weatherData">
     <h2>{{weatherData.city}}</h2>
     <p class="big-temp">{{weatherData.temperature}} °C</p>
     <p class="desc">{{weatherData.description}}</p>
@@ -70,12 +110,11 @@
       <p>💧 {{weatherData.humidity}}%</p>
       <p>🌬 {{weatherData.windSpeed}} m/s</p>
       <p>📍 {{weatherData.latitude}}, {{weatherData.longitude}}</p>
-    </div>
+    </div> -->
 
-    <button (click)="addFavorite()" class="fav-btn">
+    <!-- <button (click)="addFavorite()" class="fav-btn">
       ⭐ Add Favorite
     </button>
-  </div>
+  </div> -->
 
 </div>
-

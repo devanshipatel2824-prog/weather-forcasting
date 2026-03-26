@@ -1,1 +1,123 @@
 /* You can add global styles to this file, and also import other style files */
+/* 🔥 LEAFLET POPUP FIX */
+.leaflet-popup-content-wrapper {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.leaflet-popup-tip {
+  display: none !important;
+}
+
+.weather-popup .popup-box {
+  width: 300px;
+  padding: 18px;
+  border-radius: 20px;
+
+  /* 🔥 GLASS EFFECT */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+
+  color: #000000;
+
+  box-shadow: 0 3px 14px rgba(255, 249, 249, 0.4);
+
+  font-family: 'Segoe UI', sans-serif;
+}
+.weather-popup .popup-box {
+  border: 1px solid rgba(255,255,255,0.3);
+}
+.weather-popup .popup-box {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/* HEADER */
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* CURRENT TEMP */
+.popup-current {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 8px 0 12px;
+}
+
+/* TOP SECTION */
+.popup-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.popup-top p {
+  margin: 0;
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.popup-top span {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ROW FIX */
+.popup-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;   /* 🔥 spacing fix */
+  padding: 6px 8px;
+}
+
+/* DAY */
+.popup-row .day {
+  width: 60px;
+  font-size: 13px;
+}
+
+/* ICON */
+.popup-row .icon {
+  width: 24px;
+  text-align: center;
+}
+
+/* MIN */
+.popup-row .min {
+  width: 30px;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* MAX */
+.popup-row .max {
+  width: 30px;
+  text-align: right;
+  font-weight: 500;
+}
+
+/* BAR */
+.bar {
+  flex: 1;
+  height: 5px;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.1);
+}
+
+/* BAR INNER */
+.bar div {
+  height: 100%;
+  border-radius: 10px;
+}
