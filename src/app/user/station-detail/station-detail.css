@@ -73,3 +73,39 @@ body {
   background: #084298;
   transform: scale(1.05);
 }
+.weather-card {
+  background: #2b2b2b;
+  color: white;
+  padding: 20px;
+  border-radius: 20px;
+  width: 90%;
+  margin: auto;
+}
+
+.temp {
+  font-size: 60px;
+  font-weight: bold;
+}
+
+.temp span {
+  font-size: 20px;
+}
+
+.condition {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.days {
+  display: flex;
+  justify-content: space-between;
+}
+
+.day {
+  text-align: center;
+  padding: 10px;
+}
+
+.low {
+  color: gray;
+}
