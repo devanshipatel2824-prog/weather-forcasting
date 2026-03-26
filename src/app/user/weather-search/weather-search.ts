@@ -33,13 +33,16 @@ export class WeatherSearch implements AfterViewInit, OnInit {
   timeIndex = 0;
   forecastData: any[] = [];
   weatherData?: any;
-  city = '';
-
+  city: string = '';
+  suggestions: any[] = [];
+  searchTimeout: any;
   menuOpen = false;
   selectedLayer = 'temp';
   isSearchOpen = false;
   labelsLayer: L.TileLayer | undefined;
-
+lastLat: number = 0;
+lastLon: number = 0;
+activePopup: any;
 
   constructor(
     private weatherService: WeatherService,
@@ -88,7 +91,9 @@ export class WeatherSearch implements AfterViewInit, OnInit {
         .setLatLng([lat, lon])
         .setContent(`<div class="popup-loading">Loading...</div>`)
         .openOn(this.map);
-
+this.lastLat = lat;
+this.lastLon = lon;
+this.activePopup = popup;
       // 🔥 BLINK MARKER
       this.addBlinkMarker(lat, lon);
 
@@ -138,43 +143,65 @@ export class WeatherSearch implements AfterViewInit, OnInit {
 
                 const cityName = data.city ? data.city : 'Location';
 
-this.weatherService.getForecast(cityName)
-  .subscribe({
-    next: (forecast: any[]) => {
+                this.weatherService.getForecast(cityName)
+                  .subscribe({
+                    next: (forecast: any[]) => {
 
-      let forecastHTML = '';
+                      let forecastHTML = '';
 
-forecast.forEach((f: any, index: number) => {
+                      forecast.forEach((f: any, index: number) => {
 
-  const barWidth = Math.min((f.temperature + 10) * 3, 100);
+                        // ✅ fallback logic (IMPORTANT)
+                        const temp = Math.round(f.temperature);
 
-  forecastHTML += `
+                        const min = f.minTemp ? Math.round(f.minTemp) : temp - 2;
+                        const max = f.maxTemp ? Math.round(f.maxTemp) : temp + 2;
+
+                        const desc = f.description || '';
+
+                        const icon = this.getWeatherIcon(desc);
+
+                        const range = max - min;
+                        const barWidth = Math.min(range * 10, 100);
+
+                        forecastHTML += `
     <div class="popup-row ${index === 0 ? 'active' : ''}">
-      <span>${index === 0 ? 'Today' : f.date}</span>
-      <span class="temp">${Math.round(f.temperature)}°</span>
+      
+      <span class="day">${index === 0 ? 'Today' : f.date}</span>
+
+      <span class="icon">${icon}</span>
+
+      <span class="min">${min}°</span>
 
       <div class="bar">
         <div style="width:${barWidth}%"></div>
       </div>
+
+      <span class="max">${max}°</span>
+
     </div>
   `;
-});
-
-     popup.setContent(`
+                      });
+                      popup.setContent(`
 <div class="popup-box">
 
   <div class="popup-header">
-    <span>★ ${cityName}</span>
+    <span class="location">★ ${cityName}</span>
+    <span class="close">✖</span>
+  </div>
+
+  <div class="popup-current">
+    ${extraInfo}
   </div>
 
   <div class="popup-top">
-    <div>
+    <div class="left">
       <p>DAILY FORECAST</p>
       <span>UTC+5.5</span>
     </div>
-    <div>
-      <p>WIND</p>
-      <span>km/h</span>
+    <div class="right">
+      <p>FEELS</p>
+      <span>°C</span>
     </div>
   </div>
 
@@ -182,7 +209,7 @@ forecast.forEach((f: any, index: number) => {
 
 </div>
 `);
-    },
+                    },
                     error: () => {
                       popup.setContent(`
               <b>${cityName}</b><br>
@@ -205,6 +232,20 @@ forecast.forEach((f: any, index: number) => {
         });
 
     });
+  }
+  getWeatherIcon(desc: string): string {
+    if (!desc) return '🌤';
+
+    desc = desc.toLowerCase();
+
+    if (desc.includes('cloud')) return '☁️';
+    if (desc.includes('rain')) return '🌧';
+    if (desc.includes('clear')) return '☀️';
+    if (desc.includes('storm')) return '⛈';
+    if (desc.includes('snow')) return '❄️';
+    if (desc.includes('mist') || desc.includes('fog')) return '🌫';
+
+    return '🌤';
   }
   getCityName(lat: number, lon: number): Promise<any> {
     return fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
@@ -349,13 +390,18 @@ forecast.forEach((f: any, index: number) => {
 
     // 🔥 ADD WEATHER TILE (MAIN FIX)
     if (url) {
-      this.currentLayer = L.tileLayer(url, {
-        opacity: 0.6
-      }).addTo(this.map);
-    }
+    this.currentLayer = L.tileLayer(url, {
+      opacity: 0.6
+    }).addTo(this.map);
+  }
 
-    // 🔥 CLOSE MENU
-    this.menuOpen = false;
+  // ❌ REMOVE THIS
+  // this.menuOpen = false;
+
+  // ✅ popup update (keep this)
+  if (this.lastLat && this.lastLon) {
+    this.updatePopupData(this.lastLat, this.lastLon);
+  }
   }
 
   // ============================
@@ -368,7 +414,42 @@ forecast.forEach((f: any, index: number) => {
       console.log('MENU:', this.menuOpen);
     });
   }
+updatePopupData(lat: number, lon: number) {
 
+  if (!this.activePopup) return;
+
+  this.weatherService.getWeatherByCoords(lat, lon)
+    .subscribe((data: any) => {
+
+      let extraInfo = '';
+
+      switch (this.selectedLayer) {
+        case 'temp':
+          extraInfo = `🌡 Temp: ${data.temperature}°C`;
+          break;
+        case 'humidity':
+          extraInfo = `💧 Humidity: ${data.humidity}%`;
+          break;
+        case 'wind':
+          extraInfo = `🌬 Wind: ${data.windSpeed} m/s`;
+          break;
+        case 'pressure':
+          extraInfo = `🌍 Pressure: ${data.pressure || 'N/A'} hPa`;
+          break;
+        case 'clouds':
+          extraInfo = `☁ ${data.description}`;
+          break;
+        default:
+          extraInfo = `🌡 Temp: ${data.temperature}°C`;
+      }
+
+      this.activePopup.setContent(`
+        <b>${data.city || 'Location'}</b><br>
+        ${extraInfo}
+      `);
+
+    });
+}
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
@@ -401,6 +482,7 @@ forecast.forEach((f: any, index: number) => {
   }
 
   toggleSearch() {
+    console.log('CLICK WORKING');   // 👈 CHECK
     this.isSearchOpen = !this.isSearchOpen;
   }
 
@@ -535,4 +617,70 @@ forecast.forEach((f: any, index: number) => {
 
     this.marker = L.marker([lat, lon], { icon: blinkingIcon }).addTo(this.map);
   }
+
+
+  onSearchChange() {
+
+    clearTimeout(this.searchTimeout);
+
+    if (!this.city || this.city.length < 3) {
+      this.suggestions = [];
+      return;
+    }
+
+    this.searchTimeout = setTimeout(() => {
+
+      fetch(`/api/search?format=json&q=${this.city}&limit=6`)
+        .then(res => res.json())
+        .then((data: any[]) => {
+
+          this.zone.run(() => {
+            this.suggestions = data;
+          });
+
+        })
+        .catch(() => {
+          this.suggestions = [];
+        });
+
+    }, 25); // 👈 fast & smooth
+  }
+
+  selectPlace(place: any) {
+    this.city = place.display_name; // 👈 input ma set
+    const lat = parseFloat(place.lat);
+    const lon = parseFloat(place.lon);
+
+    this.map.setView([lat, lon], 10);
+
+    if (this.marker) {
+      this.map.removeLayer(this.marker);
+    }
+
+    this.marker = L.marker([lat, lon]).addTo(this.map);
+    this.suggestions = []; // 👈 close dropdown
+    // 🔥 ADD THIS (IMPORTANT)
+    this.weatherService.getWeatherByCoords(lat, lon)
+      .subscribe((data: any) => {
+        this.weatherData = data;
+      });
+
+    this.isSearchOpen = false;
+  }
+  useCurrentLocation() {
+    navigator.geolocation.getCurrentPosition((pos) => {
+
+      const lat = pos.coords.latitude;
+      const lon = pos.coords.longitude;
+
+      this.map.setView([lat, lon], 10);
+
+      L.marker([lat, lon]).addTo(this.map);
+    });
+  }
+
 }
+
+// function getWeatherIcon(arg0: any) {
+//   throw new Error('Function not implemented.');
+// }
