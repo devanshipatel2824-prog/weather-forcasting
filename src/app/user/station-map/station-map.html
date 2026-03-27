@@ -1,0 +1,60 @@
+<div class="weather-container">
+   <!-- Heading -->
+  <div class="weather-header">
+    <h2>{{ name }}</h2>
+    <p>{{ currentDateTime() }}</p>
+  </div>
+
+  <!-- Main Content -->
+  <div class="weather-content">
+    <!-- Main Map -->
+    <!-- Main Map -->
+  <div class="main-map">
+    <div id="station-map-container" style="height: 400px; width: 100%;"></div>
+  </div>
+
+     <!-- Side Maps -->
+  <div class="side-maps">
+  <div class="map-option" *ngFor="let map of sideMaps" (click)="selectSideMap(map)">
+    
+    <span class="icon">{{ map.icon }}</span>
+    <p>{{ map.title }}</p>
+
+    <!-- 🔥 MINI LIVE MAP -->
+    <div class="mini-map" [id]="'mini-map-' + map.type"></div>
+
+  </div>
+</div>
+
+  <!-- Unit Toggle -->
+  <div class="unit-toggle">
+    <button class="unit">°C</button>
+    <button class="unit active">°F</button>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
