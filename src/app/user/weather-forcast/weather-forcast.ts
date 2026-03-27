@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common';
 import { UserFooter } from '../user-footer/user-footer';
 import { UserHeader } from '../user-header/user-header';
 import { FormsModule } from '@angular/forms';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-weather-forcast',
   standalone: true,
-  imports: [CommonModule, UserFooter, UserHeader, FormsModule],
+  imports: [CommonModule, UserFooter, UserHeader, FormsModule, RouterModule],
   templateUrl: './weather-forcast.html',
   styleUrl: './weather-forcast.css',
 })
@@ -28,16 +29,22 @@ export class WeatherForcast {
   slot: any;
   nearestCity: string = '';
 searchedCity: any;
+ 
+
   // getDirection: any;
 
-  constructor(private weatherService: WeatherService, private cdr: ChangeDetectorRef) { }
-
+  
+constructor(
+  private weatherService: WeatherService,
+  private cdr: ChangeDetectorRef,
+  private router: Router // ✅ Router injected
+) {}
   searchWeather() {
     if (!this.city) return;
 
     this.weatherService.getWeather(this.city).subscribe(data => {
       // Existing nearest places fetch
-      this.getNearbyStations(data.latitude, data.longitude);
+      // this.getNearbyStationsDetailed(data.latitude, data.longitude);
 
       // NEW detailed stations fetch
       this.getNearbyStationsDetailed(data.latitude, data.longitude);
@@ -134,7 +141,7 @@ searchedCity: any;
           this.cdr.detectChanges();
         });
 
-      this.getNearbyStations(data.latitude, data.longitude);
+      this.getNearbyStationsDetailed(data.latitude, data.longitude);
     });
   }
 
@@ -153,42 +160,42 @@ searchedCity: any;
     setTimeout(() => this.map.invalidateSize(), 200);
   }
 
-  getNearbyStations(lat: number, lon: number) {
-    this.stationMarkers.forEach(m => this.map?.removeLayer(m));
-    this.stationMarkers = [];
-    this.nearestStations = [];
+  // getNearbyStations(lat: number, lon: number) {
+  //   this.stationMarkers.forEach(m => this.map?.removeLayer(m));
+  //   this.stationMarkers = [];
+  //   this.nearestStations = [];
 
-    fetch(`https://api.openweathermap.org/data/2.5/find?lat=${lat}&lon=${lon}&cnt=15&appid=685efac5e35847415ea935663a61e193&units=metric`)
-      .then(res => res.json())
-      .then(res => {
-        let stations = res.list.filter((st: any) => st.name && st.coord && st.main);
-        stations.sort((a: any, b: any) => this.getDistance(lat, lon, a.coord.lat, a.coord.lon) - this.getDistance(lat, lon, b.coord.lat, b.coord.lon));
-        stations = stations.slice(1, 6); // top 5 nearest
+  //   fetch(`https://api.openweathermap.org/data/2.5/find?lat=${lat}&lon=${lon}&cnt=15&appid=685efac5e35847415ea935663a61e193&units=metric`)
+  //     .then(res => res.json())
+  //     .then(res => {
+  //       let stations = res.list.filter((st: any) => st.name && st.coord && st.main);
+  //       stations.sort((a: any, b: any) => this.getDistance(lat, lon, a.coord.lat, a.coord.lon) - this.getDistance(lat, lon, b.coord.lat, b.coord.lon));
+  //       stations = stations.slice(1, 6); // top 5 nearest
 
-        stations.forEach((st: { coord: { lat: number; lon: number; }; name: any; main: { temp: any; }; wind: { speed: any; }; }) => {
-          const distance = this.getDistance(lat, lon, st.coord.lat, st.coord.lon).toFixed(1);
+  //       stations.forEach((st: { coord: { lat: number; lon: number; }; name: any; main: { temp: any; }; wind: { speed: any; }; }) => {
+  //         const distance = this.getDistance(lat, lon, st.coord.lat, st.coord.lon).toFixed(1);
 
-          const marker = L.circleMarker([st.coord.lat, st.coord.lon], {
-            radius: 7,
-            color: '#ff6b6b',
-            fillColor: '#ff6b6b',
-            fillOpacity: 0.8
-          }).addTo(this.map);
+  //         const marker = L.circleMarker([st.coord.lat, st.coord.lon], {
+  //           radius: 7,
+  //           color: '#ff6b6b',
+  //           fillColor: '#ff6b6b',
+  //           fillOpacity: 0.8
+  //         }).addTo(this.map);
 
-          marker.bindPopup(`<b>${st.name}</b><br>🌡 ${st.main.temp}°C<br>💨 ${st.wind?.speed || 0} m/s<br>📏 ${distance} km`);
-          this.stationMarkers.push(marker);
+  //         marker.bindPopup(`<b>${st.name}</b><br>🌡 ${st.main.temp}°C<br>💨 ${st.wind?.speed || 0} m/s<br>📏 ${distance} km`);
+  //         this.stationMarkers.push(marker);
 
-          this.nearestStations.push({
-            name: st.name,
-            temp: st.main.temp,
-            wind: st.wind?.speed || 0,
-            distance
-          });
-        });
+  //         this.nearestStations.push({
+  //           name: st.name,
+  //           temp: st.main.temp,
+  //           wind: st.wind?.speed || 0,
+  //           distance
+  //         });
+  //       });
 
-        this.cdr.detectChanges();
-      });
-  }
+  //       this.cdr.detectChanges();
+  //     });
+  // }
 
   getIcon(condition: string, hour: number): string {
 
@@ -239,9 +246,17 @@ searchedCity: any;
 
     return this.forecastData[0].data.map((d: any) => d.time);
   }
-  openMap() {
-    window.open('/map-page', '_blank');
-  }
+  
+
+openStationMap(station: any) {
+  this.router.navigate(['/user/station-map'], {
+    queryParams: {
+      lat: station.coord.lat,
+      lon: station.coord.lon,
+      name: station.name
+    }
+  });
+}
   getEmptySlot(type: string) {
     return {
       slot: type,

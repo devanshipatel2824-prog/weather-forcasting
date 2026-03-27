@@ -21,6 +21,7 @@ import { WeatherStation } from './admin/weather-station/weather-station';
 import { ManageFavorite } from './weather-station/manage-favorite/manage-favorite';
 import { ViewStation } from './user/view-station/view-station';
 import { StationDetail } from './user/station-detail/station-detail';
+import { StationMap } from './user/station-map/station-map';
 
 
 export const routes: Routes = [
@@ -40,6 +41,7 @@ export const routes: Routes = [
     { path: 'user/view-alert', component: ViewAlert },
     { path: 'user/view-station', component: ViewStation },
     { path: 'user/station-detail/:id', component: StationDetail },
+    { path: 'user/station-map', component: StationMap},
     // { path: 'user/show',component:Show},
     
 

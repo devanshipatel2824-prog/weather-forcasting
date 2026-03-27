@@ -26,7 +26,7 @@
               }
             ],
             "styles": [
-              "node_modules/leaflet/dist/leaflet.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ]
           },
@@ -69,7 +69,6 @@
         "test": {
           "builder": "@angular/build:unit-test"
         }
-        
       }
     }
   }

@@ -98,7 +98,9 @@
       [src]="'https://maps.locationiq.com/v3/staticmap?key=pk.1234567890abcdef&center=' 
               + weatherData.latitude + ',' + weatherData.longitude + 
               '&zoom=8&size=200x120&markers=icon:small-red-cutout|' 
-              + weatherData.latitude + ',' + weatherData.longitude">
+              + weatherData.latitude + ',' + weatherData.longitude"
+      (click)="openStationMap({ coord: { lat: weatherData.latitude, lon: weatherData.longitude }, name: weatherData.name })"
+      style="cursor:pointer;">
   </td>
 </tr>
   <!-- LOW -->
@@ -226,58 +228,5 @@
 
 
 
-<div class="weather-container">
-  <!-- Heading -->
-  <div class="weather-header">
-    <h2>Valsad</h2>
-    <p>Saturday 28 Mar, 11:30pm IST</p>
-  </div>
 
-  <!-- Main Content -->
-  <div class="weather-content">
-    <!-- Main Map -->
-    <div class="main-map">
-      <img src="main-map.png" alt="Main Weather Map">
-    </div>
-
-    <!-- Side Maps -->
-    <div class="side-maps">
-      <div class="map-option">
-        <span class="icon">🌡️</span>
-        <p>Temperature Map</p>
-        <img src="temperature-map.png" alt="Temperature Map">
-      </div>
-
-      <div class="map-option">
-        <span class="icon">☁️</span>
-        <p>Cloud Map</p>
-        <img src="cloud-map.png" alt="Cloud Map">
-      </div>
-
-      <div class="map-option">
-        <span class="icon">☁️🌧️</span>
-        <p>Weather Map</p>
-        <img src="weather-map.png" alt="Weather Map">
-      </div>
-
-      <div class="map-option">
-        <span class="icon">🎏</span>
-        <p>Wind Map</p>
-        <img src="wind-map.png" alt="Wind Map">
-      </div>
-
-      <div class="map-option">
-        <span class="icon">❄️</span>
-        <p>Rain & Snow</p>
-        <img src="rain-snow-map.png" alt="Rain and Snow Map">
-      </div>
-    </div>
-  </div>
-
-  <!-- Unit Toggle -->
-  <div class="unit-toggle">
-    <button class="unit">°C</button>
-    <button class="unit active">°F</button>
-  </div>
-</div>
 <app-user-footer></app-user-footer>
