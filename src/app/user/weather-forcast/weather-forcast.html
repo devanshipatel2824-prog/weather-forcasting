@@ -11,37 +11,144 @@
     <div *ngIf="mapVisible" class="main-container">
 
         <!-- LEFT PANEL -->
-        <div class="left-panel">
+        <div class="forecast-wrapper">
 
-            <!-- CURRENT WEATHER -->
-            <div class="current-weather-card">
-                <h2>{{weatherData.city}}</h2>
-                <div class="current-weather-details">
-                    <div>🌡 Temp: {{weatherData.temperature}}°C</div>
-                    <div>💨 Wind: {{weatherData.wind}} m/s</div>
-                    <div>💧 Humidity: {{weatherData.humidity}}%</div>
-                    <div>☁ Condition: {{weatherData.condition}}</div>
-                </div>
-            </div>
+<table class="forecast-table">
 
-            <!-- FORECAST -->
-            <div class="forecast-title">📅 5-Day Forecast</div>
-            <div class="forecast-scroll">
-                <div *ngFor="let f of forecastData" class="forecast-card">
-                    <div class="forecast-main">
-                        <div class="forecast-icon">☀️</div>
-                        <div class="forecast-basic">
-                            <h4>{{f.date}}</h4>
-                            <p>🌡 {{f.temperature}}°C</p>
-                            <p>☁ {{f.condition}}</p>
-                        </div>
-                        <button class="forecast-btn" (click)="openForecastModal(f)">View Details</button>
-                    </div>
-                </div>
-            </div>
+  <!-- DAYS -->
+  <tr>
+    <th></th>
+   <th *ngFor="let day of forecastData || []">
+  <div class="day-name">
+    {{ day.date | date:'EEE' }}
+  </div>
+  <div class="day-date">
+    {{ day.date | date:'dd' }}
+  </div>
+</th>
+  </tr>
 
-        </div>
+  <!-- AM PM NIGHT -->
+  <tr>
+  <td></td>
+  <td *ngFor="let day of forecastData">
+    <div class="slots">
+      <span *ngFor="let s of day.slots">
+        {{ s.slot }}
+      </span>
+    </div>
+  </td>
+</tr>
 
+ 
+ <!-- ICON -->
+<tr>
+  <td></td>
+  <td *ngFor="let day of forecastData">
+    <div class="slots">
+      <span *ngFor="let s of day.slots">
+        {{ getIcon(s?.condition, s?.hour) }}
+      </span>
+    </div>
+  </td>
+</tr>
+
+<!-- WIND -->
+<tr>
+  <td class="label">Wind</td>
+  <td *ngFor="let day of forecastData">
+    <div class="slots">
+      <span *ngFor="let s of day.slots">
+        💨 {{ s?.wind }} m/s
+      </span>
+    </div>
+  </td>
+</tr>
+
+  <!-- RAIN -->
+  <tr>
+    <td class="label">Rain</td>
+    <td *ngFor="let day of forecastData || []">
+      <div class="slots">
+        <span *ngFor="let s of day.slots">-</span>
+      </div>
+    </td>
+  </tr>
+
+  <!-- HIGH -->
+ <tr>
+  <td class="label">High</td>
+
+  <td *ngFor="let day of forecastData || []">
+    <div class="slots">
+      <span class="temp-high" *ngFor="let s of day.slots">
+        {{ s?.max ?? '-' }}°
+      </span>
+    </div>
+  </td>
+</tr>
+
+  
+ <tr>
+  <td class="label">Map</td>
+
+  <td *ngFor="let day of forecastData; let i = index">
+    <div 
+      class="mini-map" 
+      [id]="'miniMap' + i"
+      (click)="openMap()">
+    </div>
+  </td>
+</tr>
+  <!-- LOW -->
+  <tr>
+  <td class="label">Low</td>
+
+  <td *ngFor="let day of forecastData || []">
+    <div class="slots">
+      <span class="temp-low" *ngFor="let s of day.slots">
+        {{ s?.min ?? '-' }}°
+      </span>
+    </div>
+  </td>
+</tr>
+
+  <!-- FEELS -->
+  <tr>
+    <td class="label">Feels</td>
+    <td *ngFor="let day of forecastData || []">
+      <div class="slots">
+        <span *ngFor="let s of day.slots">
+          {{ s.temp }}
+        </span>
+      </div>
+    </td>
+  </tr>
+
+  <!-- HUMIDITY -->
+  <tr>
+    <td class="label">Humidity</td>
+    <td *ngFor="let day of forecastData || []">
+      <div class="slots">
+        <span *ngFor="let s of day.slots">
+          {{ s.humidity }}
+        </span>
+      </div>
+    </td>
+  </tr>
+<tr>
+  <td class="label">Time</td>
+  <td *ngFor="let day of forecastData">
+    <div class="slots">
+      <span *ngFor="let s of day.slots">
+        {{ s?.time ?? '-' }}
+      </span>
+    </div>
+  </td>
+</tr>
+</table>
+
+</div>
         <!-- RIGHT PANEL -->
         <div class="right-panel">
 
