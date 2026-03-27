@@ -25,6 +25,7 @@ export class WeatherForcast {
   map: any;
   mainMarker: any;
   stationMarkers: any[] = [];
+  slot: any;
 
   constructor(private weatherService: WeatherService, private cdr: ChangeDetectorRef) { }
 
@@ -32,16 +33,97 @@ export class WeatherForcast {
     if (!this.city) return;
 
     this.weatherService.getWeather(this.city).subscribe(data => {
+
       this.weatherData = data;
       this.mapVisible = true;
       this.cdr.detectChanges();
 
       setTimeout(() => this.initMap(data.latitude, data.longitude), 100);
 
-      this.weatherService.getForecast(this.city).subscribe(res => {
-        this.forecastData = res;
-        this.cdr.detectChanges();
-      });
+      // ✅ DETAILED FORECAST
+      this.weatherService.getDetailedForecast(this.city)
+        .subscribe((res: any) => {
+
+          const grouped: any = {};
+
+          res.list.forEach((item: any) => {
+
+            const date = item.dt_txt.split(' ')[0];
+            const time = item.dt_txt.split(' ')[1];
+            const formattedTime = new Date(item.dt_txt).toLocaleTimeString([], {
+              hour: 'numeric',
+              minute: '2-digit'
+            });
+            let slot = '';
+
+            if (time.includes('06:00')) slot = 'AM';
+            else if (time.includes('12:00')) slot = 'PM';
+            else if (time.includes('18:00')) slot = 'Night';
+            else return; // 👈 skip baki time (IMPORTANT)
+
+            // ✅ day create
+            if (!grouped[date]) {
+              grouped[date] = {
+                date: new Date(date).toDateString(),
+                slots: {
+                  AM: this.getEmptySlot('AM'),
+                  PM: this.getEmptySlot('PM'),
+                  Night: this.getEmptySlot('Night')
+                }
+              };
+            }
+
+            // ✅ slot assign (NO push)
+            grouped[date].slots[slot] = {
+              slot,
+              time: formattedTime,   // ✅ NEW
+              temp: Math.round(item.main.temp),
+
+              min: Math.round(item.main.temp_min ?? item.main.temp - 2),
+              max: Math.round(item.main.temp_max ?? item.main.temp + 2),
+
+              humidity: item.main.humidity ?? 0,
+              wind: Math.round((item.wind?.speed ?? 0) * 3.6),
+              condition: item.weather[0]?.description || 'Clear',
+              hour: new Date(item.dt_txt).getHours()
+            };
+          });
+
+          // ✅ FINAL FORMAT
+          this.forecastData = Object.values(grouped).map((day: any) => ({
+            date: day.date,
+            slots: [
+              day.slots.AM,
+              day.slots.PM,
+              day.slots.Night
+            ]
+          }));
+          // 🔥 NEW ADD START
+          const currentHour = new Date().getHours();
+
+this.forecastData = this.forecastData.map((day: any, index: number) => {
+
+  if (index === 0) {
+
+    day.slots = day.slots.filter((slot: any) => {
+
+      if (!slot) return false;
+
+      if (currentHour >= 12 && slot.slot === 'AM') return false;
+      if (currentHour >= 18 && slot.slot === 'PM') return false;
+
+      return true;
+    });
+
+  }
+
+  return day;
+});
+
+// 🔥 empty day remove
+this.forecastData = this.forecastData.filter(day => day.slots.length > 0);
+          this.cdr.detectChanges();
+        });
 
       this.getNearbyStations(data.latitude, data.longitude);
     });
@@ -99,6 +181,34 @@ export class WeatherForcast {
       });
   }
 
+  getIcon(condition: string, hour: number): string {
+
+    condition = condition?.toLowerCase() || '';
+
+    // 🌧 Rain
+    if (condition.includes('rain')) return '🌧';
+
+    // ☁ Cloud
+    if (condition.includes('cloud')) return '☁️';
+
+    // ⛈ Storm
+    if (condition.includes('storm')) return '⛈';
+
+    // ❄ Snow
+    if (condition.includes('snow')) return '❄️';
+
+    // 🔥 DAY / NIGHT LOGIC
+    if (hour >= 6 && hour < 18) {
+      return '☀️';  // Day
+    } else {
+      return '🌙';  // Night
+    }
+  }
+
+  getBarWidth(min: number, max: number): number {
+    const diff = max - min;
+    return Math.min(diff * 10, 100);
+  }
   getDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
     const R = 6371;
     const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -115,4 +225,74 @@ export class WeatherForcast {
   closeForecastModal() {
     this.selectedForecast = null;
   }
+  getTimeSlots() {
+    if (!this.forecastData.length) return [];
+
+    return this.forecastData[0].data.map((d: any) => d.time);
+  }
+  openMap() {
+  window.open('/map-page', '_blank');
+}
+  getEmptySlot(type: string) {
+    return {
+      slot: type,
+      temp: 0,
+      min: 0,
+      max: 0,
+      humidity: 0,
+      wind: 0,
+      condition: 'Clear'
+    };
+  }
+  getCurrentSlot(): string {
+    const hour = new Date().getHours();
+
+    if (hour >= 6 && hour < 12) return 'AM';
+    if (hour >= 12 && hour < 18) return 'PM';
+    return 'Night';
+  }
+ loadMiniMaps() {
+
+  setTimeout(() => {
+
+    this.forecastData.forEach((day, i) => {
+
+      const mapId = 'miniMap' + i;
+      const element = document.getElementById(mapId);
+
+      if (!element) return;
+
+      // 🔥 IMPORTANT: clear old map
+      element.innerHTML = '';
+
+      try {
+
+        const map = L.map(element, {
+          attributionControl: false,
+          zoomControl: false,
+          dragging: false,
+          scrollWheelZoom: false
+        }).setView(
+          [this.weatherData.latitude, this.weatherData.longitude],
+          8
+        );
+
+        // ✅ tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
+          .addTo(map);
+
+        // ✅ marker
+        L.marker([
+          this.weatherData.latitude,
+          this.weatherData.longitude
+        ]).addTo(map);
+
+      } catch (e) {
+        console.log('Map load error:', e);
+      }
+
+    });
+     
+  }, 500); // 🔥 thodu delay vadharyu
+}
 }

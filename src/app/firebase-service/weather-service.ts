@@ -85,4 +85,9 @@ getNearbyStations(lat: number, lon: number) {
     `https://api.openweathermap.org/data/2.5/find?lat=${lat}&lon=${lon}&cnt=5&appid=${this.apiKey}&units=metric`
   );
 }
+getDetailedForecast(city: string): Observable<any> {
+  return this.http.get(
+    `https://api.openweathermap.org/data/2.5/forecast?q=${city},IN&appid=${this.apiKey}&units=metric`
+  );
+}
 }
