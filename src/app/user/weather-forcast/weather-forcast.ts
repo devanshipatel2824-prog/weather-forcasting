@@ -21,11 +21,14 @@ export class WeatherForcast {
   weatherData: any = {};
   forecastData: any[] = [];
   nearestStations: any[] = [];
-
+  nearestStationsDetailed: any[] = [];
   map: any;
   mainMarker: any;
   stationMarkers: any[] = [];
   slot: any;
+  nearestCity: string = '';
+searchedCity: any;
+  // getDirection: any;
 
   constructor(private weatherService: WeatherService, private cdr: ChangeDetectorRef) { }
 
@@ -33,8 +36,14 @@ export class WeatherForcast {
     if (!this.city) return;
 
     this.weatherService.getWeather(this.city).subscribe(data => {
+      // Existing nearest places fetch
+      this.getNearbyStations(data.latitude, data.longitude);
 
+      // NEW detailed stations fetch
+      this.getNearbyStationsDetailed(data.latitude, data.longitude);
       this.weatherData = data;
+
+      this.nearestCity = data.name; // assuming API returns city name
       this.mapVisible = true;
       this.cdr.detectChanges();
 
@@ -101,27 +110,27 @@ export class WeatherForcast {
           // 🔥 NEW ADD START
           const currentHour = new Date().getHours();
 
-this.forecastData = this.forecastData.map((day: any, index: number) => {
+          this.forecastData = this.forecastData.map((day: any, index: number) => {
 
-  if (index === 0) {
+            if (index === 0) {
 
-    day.slots = day.slots.filter((slot: any) => {
+              day.slots = day.slots.filter((slot: any) => {
 
-      if (!slot) return false;
+                if (!slot) return false;
 
-      if (currentHour >= 12 && slot.slot === 'AM') return false;
-      if (currentHour >= 18 && slot.slot === 'PM') return false;
+                if (currentHour >= 12 && slot.slot === 'AM') return false;
+                if (currentHour >= 18 && slot.slot === 'PM') return false;
 
-      return true;
-    });
+                return true;
+              });
 
-  }
+            }
 
-  return day;
-});
+            return day;
+          });
 
-// 🔥 empty day remove
-this.forecastData = this.forecastData.filter(day => day.slots.length > 0);
+          // 🔥 empty day remove
+          this.forecastData = this.forecastData.filter(day => day.slots.length > 0);
           this.cdr.detectChanges();
         });
 
@@ -231,8 +240,8 @@ this.forecastData = this.forecastData.filter(day => day.slots.length > 0);
     return this.forecastData[0].data.map((d: any) => d.time);
   }
   openMap() {
-  window.open('/map-page', '_blank');
-}
+    window.open('/map-page', '_blank');
+  }
   getEmptySlot(type: string) {
     return {
       slot: type,
@@ -251,48 +260,66 @@ this.forecastData = this.forecastData.filter(day => day.slots.length > 0);
     if (hour >= 12 && hour < 18) return 'PM';
     return 'Night';
   }
- loadMiniMaps() {
 
-  setTimeout(() => {
 
-    this.forecastData.forEach((day, i) => {
+  getNearbyStationsDetailed(lat: number, lon: number) {
+    this.nearestStationsDetailed = [];
 
-      const mapId = 'miniMap' + i;
-      const element = document.getElementById(mapId);
+    fetch(`https://api.openweathermap.org/data/2.5/find?lat=${lat}&lon=${lon}&cnt=15&appid=685efac5e35847415ea935663a61e193&units=metric`)
+      .then(res => res.json())
+      .then(res => {
+        let stations = res.list.filter((st: any) => st.name && st.coord && st.main);
+        stations.sort((a: any, b: any) => this.getDistance(lat, lon, a.coord.lat, a.coord.lon) - this.getDistance(lat, lon, b.coord.lat, b.coord.lon));
+        stations = stations.slice(1, 6); // top 5 nearest
 
-      if (!element) return;
+        stations.forEach((st: any) => {
+          const distance = this.getDistance(lat, lon, st.coord.lat, st.coord.lon);
+          const distanceDetail = `${(distance * 0.621).toFixed(1)} miles ${this.getDirections(lat, lon, st.coord.lat, st.coord.lon)}`;
 
-      // 🔥 IMPORTANT: clear old map
-      element.innerHTML = '';
+          // ✅ Add marker only if map exists
+          if (this.map) {
+            const marker = L.circleMarker([st.coord.lat, st.coord.lon], {
+              radius: 7,
+              color: '#ff6b6b',
+              fillColor: '#ff6b6b',
+              fillOpacity: 0.8
+            }).addTo(this.map);
+            this.stationMarkers.push(marker);
+          }
 
-      try {
+          this.nearestStationsDetailed.push({
+            name: st.name,
+            temp: Math.round(st.main.temp),
+            wind: Math.round(st.wind?.speed || 0),
+            clouds: st.clouds?.all ?? 0,
+            visibility: st.visibility ?? 0,
+            conditionLine: st.weather[0]?.main + ' – ' + (st.weather[0]?.description || 'Clear'),
+            iconUrl: st.weather[0]?.icon
+              ? `https://openweathermap.org/img/wn/${st.weather[0].icon}@2x.png`
+              : 'assets/default-weather.png',
+            distance: distance.toFixed(1),
+            distanceDetail,
+            altitude: st.main?.grnd_level ?? 0,
+            updatedAgo: '1 hour ago'
+          });
+        });
 
-        const map = L.map(element, {
-          attributionControl: false,
-          zoomControl: false,
-          dragging: false,
-          scrollWheelZoom: false
-        }).setView(
-          [this.weatherData.latitude, this.weatherData.longitude],
-          8
-        );
+        this.cdr.detectChanges();
+      });
+  }
+  getDirections(lat1: number, lon1: number, lat2: number, lon2: number): string {
+    const dy = lat2 - lat1;
+    const dx = lon2 - lon1;
+    const angle = Math.atan2(dy, dx) * (180 / Math.PI);
 
-        // ✅ tile layer
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
-          .addTo(map);
-
-        // ✅ marker
-        L.marker([
-          this.weatherData.latitude,
-          this.weatherData.longitude
-        ]).addTo(map);
-
-      } catch (e) {
-        console.log('Map load error:', e);
-      }
-
-    });
-     
-  }, 500); // 🔥 thodu delay vadharyu
-}
+    if (angle >= -22.5 && angle < 22.5) return '→ E';
+    if (angle >= 22.5 && angle < 67.5) return '↗ NE';
+    if (angle >= 67.5 && angle < 112.5) return '↑ N';
+    if (angle >= 112.5 && angle < 157.5) return '↖ NW';
+    if (angle >= 157.5 || angle < -157.5) return '← W';
+    if (angle >= -157.5 && angle < -112.5) return '↙ SW';
+    if (angle >= -112.5 && angle < -67.5) return '↓ S';
+    if (angle >= -67.5 && angle < -22.5) return '↘ SE';
+    return '';
+  }
 }

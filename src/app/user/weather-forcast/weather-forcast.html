@@ -92,12 +92,13 @@
  <tr>
   <td class="label">Map</td>
 
-  <td *ngFor="let day of forecastData; let i = index">
-    <div 
-      class="mini-map" 
-      [id]="'miniMap' + i"
-      (click)="openMap()">
-    </div>
+  <td *ngFor="let day of forecastData">
+    <img 
+      class="map-img"
+      [src]="'https://maps.locationiq.com/v3/staticmap?key=pk.1234567890abcdef&center=' 
+              + weatherData.latitude + ',' + weatherData.longitude + 
+              '&zoom=8&size=200x120&markers=icon:small-red-cutout|' 
+              + weatherData.latitude + ',' + weatherData.longitude">
   </td>
 </tr>
   <!-- LOW -->
@@ -156,20 +157,6 @@
             <div class="map-box">
                 <div id="map"></div>
             </div>
-
-            <!-- NEAREST STATIONS -->
-            <div class="stations-list">
-                <h3>📍 Nearest Stations</h3>
-                <div class="stations-grid">
-                    <div *ngFor="let st of nearestStations" class="station-card">
-                        <div class="station-name">{{st.name}}</div>
-                        <div class="station-temp">🌡 {{st.temp}}°C</div>
-                        <div class="station-wind">💨 {{st.wind}} m/s</div>
-                        <div class="station-distance">📏 {{st.distance}} km</div>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
     </div>
@@ -195,4 +182,102 @@
     </div>
 </div>
 
+<!-- DETAILED NEAREST STATIONS TABLE – NEW -->
+<!-- NEW DETAILED NEAREST STATIONS TABLE -->
+<div class="stations-list-detailed" style="margin-top:30px;">
+  <h3 *ngIf="nearestStationsDetailed.length > 0">
+   Live Weather Stations Near {{ city || nearestCity || 'Your Location' }}
+</h3>
+  <table class="stations-table" border="1" cellspacing="0" cellpadding="5" style="width:100%; border-collapse: collapse;">
+    <thead style="background:#f0f0f0;">
+      <tr>
+        <th>Weather Station</th>
+        <th>Temp</th>
+        <th>Weather</th>
+        <th>Wind</th>
+        <th>Cloud / Visibility</th>
+        <th>Distance</th>
+      </tr>
+    </thead>
+    <tbody>
+     <tr *ngFor="let st of nearestStationsDetailed">
+  <td>
+    <div>{{ st.name }}</div>
+    <small style="color:#666;">
+      {{ st.distanceDetail }}<br>
+      {{ st.altitude }} ft alt.<br>
+      {{ st.updatedAgo }}
+    </small>
+  </td>
+  <td style="background:#ff6b6b; color:white; text-align:center;">
+    {{ st.temp }}°C
+  </td>
+ <td>
+  {{ getIcon(st.conditionLine, 12) }} {{ st.conditionLine }}
+</td>
+  <td>{{ st.wind }} m/s</td>
+  <td>Clouds: {{ st.clouds }}% / Vis: {{ st.visibility }} m</td>
+  <td>{{ st.distance }} km</td>
+</tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+<div class="weather-container">
+  <!-- Heading -->
+  <div class="weather-header">
+    <h2>Valsad</h2>
+    <p>Saturday 28 Mar, 11:30pm IST</p>
+  </div>
+
+  <!-- Main Content -->
+  <div class="weather-content">
+    <!-- Main Map -->
+    <div class="main-map">
+      <img src="main-map.png" alt="Main Weather Map">
+    </div>
+
+    <!-- Side Maps -->
+    <div class="side-maps">
+      <div class="map-option">
+        <span class="icon">🌡️</span>
+        <p>Temperature Map</p>
+        <img src="temperature-map.png" alt="Temperature Map">
+      </div>
+
+      <div class="map-option">
+        <span class="icon">☁️</span>
+        <p>Cloud Map</p>
+        <img src="cloud-map.png" alt="Cloud Map">
+      </div>
+
+      <div class="map-option">
+        <span class="icon">☁️🌧️</span>
+        <p>Weather Map</p>
+        <img src="weather-map.png" alt="Weather Map">
+      </div>
+
+      <div class="map-option">
+        <span class="icon">🎏</span>
+        <p>Wind Map</p>
+        <img src="wind-map.png" alt="Wind Map">
+      </div>
+
+      <div class="map-option">
+        <span class="icon">❄️</span>
+        <p>Rain & Snow</p>
+        <img src="rain-snow-map.png" alt="Rain and Snow Map">
+      </div>
+    </div>
+  </div>
+
+  <!-- Unit Toggle -->
+  <div class="unit-toggle">
+    <button class="unit">°C</button>
+    <button class="unit active">°F</button>
+  </div>
+</div>
 <app-user-footer></app-user-footer>
