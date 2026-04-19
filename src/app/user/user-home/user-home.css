@@ -46,7 +46,7 @@ background-position: center -8%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 40px;
+  margin-top: -53px;
   gap: 40px;
 }
 
@@ -190,4 +190,294 @@ background-position: center -8%;
 
 .wind-text h2 {
   margin: 0;
+}
+
+
+
+
+
+
+.center-content {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* SAME DESIGN BOX */
+.temp-box {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+
+  padding: 25px 30px;
+  border-radius: 20px;
+  text-align: center;
+  color: #fff;
+  min-width: 180px;
+}
+
+.temp-box h2 {
+  margin: 0;
+  font-size: 16px;
+  opacity: 0.8;
+}
+
+.temp-box h1 {
+  font-size: 42px;
+  margin: 10px 0;
+}
+
+.desc {
+  font-size: 14px;
+  margin-bottom: 10px;
+  opacity: 0.8;
+}
+
+.time {
+  font-size: 12px;
+  opacity: 0.7;
+}
+.location-search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.pin {
+  font-size: 20px;
+}
+
+/* SEARCH BOX */
+.search-box {
+  position: relative;
+  width: 260px;
+}
+
+/* INPUT STYLE */
+.search-input {
+  width: 260px;
+  padding: 12px 15px 12px 40px; /* 👈 left space for icon */
+  border-radius: 25px;
+  border: none;
+  outline: none;
+
+  font-size: 14px;
+  color: #000000;
+
+  /* GLASS EFFECT */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+
+  /* 🔍 ICON */
+  background-image: url("https://cdn-icons-png.flaticon.com/512/622/622669.png");
+  background-repeat: no-repeat;
+  background-size: 16px;
+  background-position: 12px center;
+}
+
+/* PLACEHOLDER COLOR */
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.7); /* 👈 change this */
+}
+
+/* FOCUS EFFECT (optional but nice) */
+.search-input:focus {
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
+}
+
+/* SUGGESTIONS DROPDOWN */
+.suggestions {
+  position: absolute;
+  width: 100%;
+  margin-top: 8px;
+  border-radius: 15px;
+  overflow: hidden;
+
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(12px);
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  z-index: 100;
+}
+
+/* ITEM */
+.suggest-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  color: #fff;
+  transition: 0.2s;
+}
+
+.suggest-item:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+/* ===== CARD CONTAINER ===== */
+.weather-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* ===== BASE CARD ===== */
+.card {
+  padding: 20px;
+  border-radius: 18px;
+  color: #fff;
+  transition: 0.3s ease;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+/* HOVER */
+.card:hover {
+  transform: translateY(-6px);
+}
+
+/* TITLE */
+.card h4 {
+  margin-bottom: 15px;
+  font-size: 15px;
+  opacity: 0.9;
+}
+
+/* ===== DIFFERENT COLORS PER CARD ===== */
+.card:nth-child(1) {
+  background: linear-gradient(135deg, #ff7e5f, #feb47b); /* TEMP */
+}
+
+.card:nth-child(2) {
+  background: linear-gradient(135deg, #36d1dc, #5b86e5); /* HUMIDITY */
+}
+
+.card:nth-child(3) {
+  background: linear-gradient(135deg, #4facfe, #00f2fe); /* RAIN */
+}
+
+.card:nth-child(4) {
+  background: linear-gradient(135deg, #43e97b, #38f9d7); /* WIND */
+}
+
+/* ===== TEMP ===== */
+.temp-box.small {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.status {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* MIN MAX */
+.minmax {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+}
+
+.minmax span {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* ===== HUMIDITY ===== */
+.gauge {
+  position: relative;
+  width: 100px;
+  height: 50px;
+  margin: auto;
+}
+
+.semi-circle {
+  width: 100px;
+  height: 50px;
+  border: 6px solid rgba(255,255,255,0.5);
+  border-bottom: none;
+  border-radius: 100px 100px 0 0;
+}
+
+.needle {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  height: 40px;
+  background: #fff;
+  transform-origin: bottom;
+}
+
+.value {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* ===== RAIN ===== */
+.rain-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.drop {
+  width: 20px;
+  height: 30px;
+  background: #fff;
+  border-radius: 50% 50% 60% 60%;
+}
+
+/* ===== WIND ===== */
+.wind-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.compass {
+  width: 60px;
+  height: 60px;
+  border: 2px solid rgba(255,255,255,0.6);
+  border-radius: 50%;
+  position: relative;
+}
+.card h4 i {
+  margin-right: 8px;
+  font-size: 16px;
+  vertical-align: middle;
+  opacity: 0.9;
+}
+
+/* Optional: hover glow */
+.card:hover i {
+  transform: scale(1.1);
+}
+.arrow {
+  width: 3px;
+  height: 25px;
+  background: #fff;
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform-origin: bottom;
+}
+
+.wind-text h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.wind-text p {
+  margin: 0;
+  opacity: 0.9;
 }

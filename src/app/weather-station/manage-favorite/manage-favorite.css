@@ -9,53 +9,96 @@ app-admin-sidebar {
   width: 250px;
   min-width: 250px;
 }
+ /* .dashboard-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background-color: #ffffff; /* White background as per image 
+}  */
 
-/* Content */
 .main-content {
-  margin-left: 250px;   /* 🔥 SAME as sidebar width */
-  padding: 20px;
-  width: calc(100% - 250px);  /* 🔥 IMPORTANT */
+  flex-grow: 1;
+  padding: 40px;
+  font-family: 'Segoe UI', Roboto, sans-serif;
 }
 
-/* Table Design */
-table {
+.content-header {
+  margin-bottom: 30px;
+}
+
+.page-title {
+  color: #2b3674;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  color: #a3aed0;
+  font-size: 16px;
+}
+
+/* Table Card Design (Soft shadow ane rounded corners) */
+.table-container-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f1f4f9;
+  padding: 10px 20px;
+  margin-top: 25px;
+}
+
+.custom-table {
   width: 100%;
   border-collapse: collapse;
-  background: #ffffff;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* Header */
-th {
-  background: #3498db;
+/* Header Alignment - Left Aligned karo */
+.custom-table thead th {
+  text-align: left; /* Tame right align karyu hatu, ene left align karo */
+  color: #a3aed0;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 15px 12px;
+  border-bottom: 1px solid #f1f4f9;
+  text-transform: uppercase;
+}
+
+/* Data Cell Alignment - Left Aligned karo */
+.custom-table tbody td {
+  padding: 18px 12px;
+  border-bottom: 1px solid #f1f4f9;
+  vertical-align: middle;
+}
+
+/* --- Action Column Fix (Dur na dekhay te mate) --- */
+.action-cell {
+  width: 150px; /* Action column ni minimum size fix karvi */
+  text-align: left; /* Button ne barobar action header na niche muko */
+}
+
+/* Delete Button Design (Image mujab small ane centered) */
+.btn-delete {
+  background-color: #fff5f5;
+  color: #ff5b5b;
+  border: 1px solid #ffe5e5;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-delete:hover {
+  background-color: #ff5b5b;
   color: white;
-  padding: 14px;
-  text-align: left;
-  font-size: 15px;
 }
 
-/* Data */
-td {
-  padding: 14px;
-  border-bottom: 1px solid #eee;
-  font-size: 14px;
-}
-
-/* Hover */
-tr:hover {
-  background: #f1f7ff;
-  transition: 0.3s;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .admin-container {
-    margin-left: 0;
-  }
-
-  table {
-    font-size: 12px;
-  }
+/* Sidebar fix */
+app-sidebar {
+  width: 260px;
+  flex-shrink: 0;
 }

@@ -1,60 +1,47 @@
 <div class="weather-container">
-   <!-- Heading -->
+
+  <!-- Heading -->
   <div class="weather-header">
     <h2>{{ name }}</h2>
     <p>{{ currentDateTime() }}</p>
   </div>
 
-  <!-- Main Content -->
   <div class="weather-content">
-    <!-- Main Map -->
-    <!-- Main Map -->
-  <div class="main-map">
-    <div id="station-map-container" style="height: 400px; width: 100%;"></div>
-  </div>
 
-     <!-- Side Maps -->
-  <div class="side-maps">
-  <div class="map-option" *ngFor="let map of sideMaps" (click)="selectSideMap(map)">
-    
-    <span class="icon">{{ map.icon }}</span>
-    <p>{{ map.title }}</p>
+    <!-- Map -->
+    <div class="main-map">
+      <div id="windy" style="height: 400px; width: 100%;"></div>
+    </div>
 
-    <!-- 🔥 MINI LIVE MAP -->
-    <div class="mini-map" [id]="'mini-map-' + map.type"></div>
+    <!-- Weather Data -->
+    <div class="weather-info">
+      <p>🌡 Temperature: {{ temp }} °C</p>
+      <p>💨 Wind: {{ wind }} km/h</p>
+      <p>🌪 Pressure: {{ pressure }} hPa</p>
+    </div>
+
+    <!-- Side Maps -->
+    <div class="side-maps">
+      <div class="map-option"
+           *ngFor="let map of sideMaps"
+           (click)="selectSideMap(map)"
+           [class.active]="selectedMap?.layer === map.layer">
+
+        <span class="icon">{{ map.icon }}</span>
+        <p>{{ map.title }}</p>
+
+        <div class="mini-map">
+          <img [src]="getPreviewMap(map.layer)" />
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Unit Toggle -->
+    <div class="unit-toggle">
+      <button class="unit">°C</button>
+      <button class="unit active">°F</button>
+    </div>
 
   </div>
 </div>
-
-  <!-- Unit Toggle -->
-  <div class="unit-toggle">
-    <button class="unit">°C</button>
-    <button class="unit active">°F</button>
-  </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

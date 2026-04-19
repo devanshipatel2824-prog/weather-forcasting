@@ -11,57 +11,237 @@ app-sidebar {
   flex-shrink: 0;
 }
 
-/* 🔷 Content beside sidebar */
-.dashboard-content {
+.admin-wrapper {
   flex: 1;
-  padding: 20px 30px;
+  margin-left: 260px;
+  /* Sidebar ni width jitli space chhodo */
+  padding: 30px;
+  box-sizing: border-box;
 }
 
-/* 🔷 Heading */
-.dashboard-content h2 {
+/* Header Styling */
+h2 {
+  font-size: 24px;
+  color: #1a202c;
+  margin-bottom: 5px;
+  font-weight: 700;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background: #e2e8f0;
+  margin-bottom: 25px;
+}
+
+/* Grid Layout: 2 Columns */
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  /* Form thodu nanu, List thodi moti */
+  gap: 25px;
+  align-items: start;
+}
+
+/* Professional Card Design */
+.card {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid #edf2f7;
+}
+
+.card h3 {
+  font-size: 18px;
+  color: #2d3748;
   margin-bottom: 20px;
-  color: #333;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #3182ce;
+  display: inline-block;
 }
 
-/* 🔷 Table Styling */
+/* Form Styles */
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 8px;
+}
+
+.form-control,
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  background: #f8fafc;
+}
+
+.form-control:focus,
+input:focus {
+  outline: none;
+  border-color: #3182ce;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+  background: #ffffff;
+}
+
+/* Horizontal Row for Temp & Wind */
+.row {
+  display: flex;
+  gap: 15px;
+}
+
+.row .form-group {
+  flex: 1;
+}
+
+/* Buttons */
+.btn-save {
+  width: 100%;
+  background: #3182ce;
+  color: white;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 10px;
+}
+
+.btn-save:hover {
+  background: #2b6cb0;
+}
+
+.btn-delete {
+  background: #fed7d7;
+  color: #c53030;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-delete:hover {
+  background: #feb2b2;
+}
+
+/* Table Design */
 table {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-/* Header */
 th {
-  background: linear-gradient(45deg, #007bff, #00c6ff);
-  color: white;
-  padding: 12px;
   text-align: left;
+  background: #f7fafc;
+  padding: 12px;
+  color: #718096;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid #edf2f7;
 }
 
-/* Rows */
 td {
+  padding: 15px 12px;
+  border-bottom: 1px solid #edf2f7;
+  font-size: 14px;
+  color: #2d3748;
+}
+
+/* Status Badges */
+.city-badge {
+  background: #ebf8ff;
+  color: #2b6cb0;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-wrapper {
+    margin-left: 0;
+    /* Sidebar hide thayo hoy to */
+  }
+}
+
+/* Status Dots */
+.dot {
+  height: 10px;
+  width: 10px;
+  display: inline-block;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.green {
+  background-color: #27ae60;
+}
+
+.yellow {
+  background-color: #f39c12;
+}
+
+.red {
+  background-color: #e74c3c;
+}
+
+.status-legend {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #7f8c8d;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Option styling (Note: browser limitations may apply to select options colors) */
+select option {
   padding: 10px;
-  border-bottom: 1px solid #eee;
+  font-weight: 500;
 }
 
-/* Hover effect */
-tr:hover {
-  background: #f1f9ff;
+/* Row highlight in table (if you are using the table too) */
+.row-new {
+  border-left: 5px solid #27ae60;
 }
 
-/* Button (future use) */
-button {
-  padding: 5px 10px;
-  border: none;
-  background: #ff4d4d;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
+.row-recent {
+  border-left: 5px solid #f39c12;
 }
 
-button:hover {
-  background: #cc0000;
+.row-old {
+  border-left: 5px solid #e74c3c;
+}
+
+/* Option na colors browser ma fix karva mate */
+select.form-control {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+option {
+  background-color: white;
+  padding: 10px;
 }

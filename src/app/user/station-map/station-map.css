@@ -67,9 +67,8 @@
 }
 
 .map-option img {
-  width: 100%;
-  margin-top: 6px;
-  border-radius: 4px;
+  height: 80px;
+  object-fit: cover;
 }
 
 .unit-toggle {
@@ -92,3 +91,33 @@
   border-color: #0078d7;
 }
 
+
+.map-option {
+  background: white;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.map-option.active {
+  border: 2px solid blue;
+}
+
+.mini-map {
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.mini-map img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+}
+#windy {
+  width: 100%;
+  height: 400px;
+}

@@ -3,33 +3,84 @@
   <!-- Sidebar -->
   <app-sidebar></app-sidebar>
 
-  <!-- Main Content -->
-  <div class="dashboard-content">
+  <div class="admin-wrapper">
+    <h2>Weather Station Management (Admin)</h2>
+    <hr>
 
-    <h2>🌦 Weather Stations</h2>
+    <div class="admin-grid">
+      <div class="card form-section">
+        <h3>Add New Monitoring Station</h3>
+        <div class="form-group">
+          <label>Station Name:</label>
+          <input type="text" [(ngModel)]="stationName" placeholder="e.g. Adajan Center">
+        </div>
+        <div class="form-group">
+          <label>Select Target City (User Activity mathi):</label>
+          <select [(ngModel)]="targetCity" class="form-control">
+            <option value="" disabled selected>-- Select a City --</option>
 
-    <table>
-      <tr>
-        <th>Station Name</th>
-        <th>Location</th>
-        <th>Latitude</th>
-        <th>Longitude</th>
-        <th>Installation Date</th>
-        <th>Status</th>
-      </tr>
+            @for (h of searchHistoryList; track h.id) {
+            <option [value]="h.city">
+              {{ h.city | titlecase }} —
+              By: {{ h.userName }} ({{ h.role }}) —
+              {{ h.timestamp?.toDate() | date:'shortTime' }}
+            </option>
+            } @empty {
+            <option disabled>No recent searches found</option>
+            }
+          </select>
+          <small>Choose a city based on what Farmers or Students are searching.</small>
+        </div>
+        <div class="row">
+          <div class="form-group">
+            <label>Temp (°C):</label>
+            <input type="number" [(ngModel)]="temperature">
+          </div>
+          <div class="form-group">
+            <label>Wind (m/s):</label>
+            <input type="number" [(ngModel)]="windSpeed">
+          </div>
+        </div>
 
-      <tr *ngFor="let station of stations">
-        <td>{{ station.stationName }}</td>
-        <td>{{ station.location }}</td>
-        <td>{{ station.latitude }}</td>
-        <td>{{ station.longitude }}</td>
-        <td>{{ station.installationDate | date:'shortDate' }}</td>
-        <td>{{ station.status }}</td>
-        <td>
-          <!-- future delete/edit -->
-        </td>
-      </tr>
-    </table>
+        <div class="form-group">
+          <label>Distance from City Center (km):</label>
+          <input type="text" [(ngModel)]="distance" placeholder="e.g. 1.5">
+        </div>
 
+        <button class="btn-save" (click)='addStation()'>Save Station</button>
+      </div>
+
+      <div class="card list-section">
+        <h3>Manage Existing Stations</h3>
+
+        <div *ngIf="isLoading" class="loader">Loading stations...</div>
+
+        <table *ngIf="!isLoading">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Target City</th>
+              <th>Data</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (st of allStations; track st.id) {
+            <tr>
+              <td><b>{{ st.name }}</b></td>
+              <td><span class="city-badge">{{ st.targetCity }}</span></td>
+              <td>{{ st.temp }}°C | {{ st.wind }}m/s</td>
+              <td>
+                <button class="btn-delete" (click)="deleteStation(st.id)">Delete</button>
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="4">No custom stations added yet.</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
-</div>
