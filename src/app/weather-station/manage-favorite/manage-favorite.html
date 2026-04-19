@@ -1,23 +1,33 @@
 <div class="dashboard">
-
   <app-sidebar></app-sidebar>
 
-  <div class="main-content">
-    <h2>⭐ User Favorite Cities</h2>
+  <main class="main-content">
+    <div class="content-header">
+      <h1 class="page-title">📍 My Favorite Cities</h1>
+      <p class="subtitle">Your saved locations for quick weather updates.</p>
+    </div>
 
-    <table>
-      <tr>
-        <th>City</th>
-        <th>Country</th>
-        <th>Added At</th>
-      </tr>
-
-      <tr *ngFor="let fav of favorites">
-        <td>{{ fav.city }}</td>
-        <td>{{ fav.country }}</td>
-        <td>{{ fav.addedAt | date:'short' }}</td>
-      </tr>
-    </table>
-  </div>
-
+    <div class="table-container-card">
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>CITY</th>
+            <th>ADDED DATE</th>
+            <th class="text-right">ACTION</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let fav of favorites">
+            <td class="city-name">{{ fav.city }}</td>
+            <td class="date-text">{{ fav.addedAt | date:'MMM d, y' }}</td>
+            <td class="text-right">
+              <button class="btn-delete" (click)="deleteFavorite(fav.id!)">
+                <i class="fas fa-trash-alt"></i> Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
 </div>

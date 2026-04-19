@@ -14,21 +14,22 @@ export class WeatherService {
 
   // ✅ CITY SEARCH
   getWeather(city: string): Observable<any> {
-    return this.http.get<any>(
-      `${this.baseUrl}?q=${city},IN&appid=${this.apiKey}&units=metric`
-    ).pipe(
-      map(res => ({
-        city: res.name,
-        temperature: res.main.temp,
-        humidity: res.main.humidity,
-        windSpeed: res.wind.speed,
-        description: res.weather[0]?.description || '',
-        icon: `https://openweathermap.org/img/wn/${res.weather[0]?.icon}@2x.png`,
-        latitude: res.coord.lat,
-        longitude: res.coord.lon
-      }))
-    );
-  }
+  return this.http.get<any>(
+    `${this.baseUrl}?q=${city}&appid=${this.apiKey}&units=metric`
+  ).pipe(
+    map(res => ({
+      city: res.name,
+      temperature: res.main.temp,
+      humidity: res.main.humidity,
+      windSpeed: res.wind.speed,
+      description: res.weather[0]?.description || '',
+      icon: `https://openweathermap.org/img/wn/${res.weather[0]?.icon}@2x.png`,
+      latitude: res.coord.lat,
+      longitude: res.coord.lon,
+       timezone: res.timezone 
+    }))
+  );
+}
 
   // ✅ MAP CLICK (IMPORTANT FIX 🔥)
   getWeatherByCoords(lat: number, lon: number): Observable<any> {

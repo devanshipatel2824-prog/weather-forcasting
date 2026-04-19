@@ -1,26 +1,39 @@
 <app-user-header></app-user-header>
 
 <div class="favorites-container">
-  <h2>Favorite Cities</h2>
+  <div class="page-header">
+    <h2> My Favorite Cities</h2>
+    <p>Your saved locations for quick weather updates.</p>
+  </div>
 
-  <table>
-    <tr>
-      <th>City</th>
-      <th>Country</th>
-      <!-- <th>Added At</th> -->
-      <th>Action</th>
-    </tr>
+  <div class="table-wrapper" *ngIf="favorites.length > 0">
+    <table class="modern-table">
+      <thead>
+        <tr>
+          <th>City</th>
+          <!-- <th>Country</th> -->
+          <th>Added Date</th>
+          <th class="text-right">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let fav of favorites">
+          <td class="city-name"><b>{{ fav.city }}</b></td>
+          <!-- <td><span class="badge">{{ fav.country }}</span></td> -->
+          <td class="date-col">{{ fav.addedAt | date:'mediumDate' }}</td>
+          <td class="text-right">
+            <button class="btn-delete" (click)="deleteFavorite(fav.id!)">
+              🗑 Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-    <tr *ngFor="let fav of favorites">
-      <td>{{ fav.city }}</td>
-      <td>{{ fav.country }}</td>
-      <!-- <td>{{ fav.addedAt?.toDate() | date:'short' }}</td> -->
-      <td>
-        <button (click)="deleteFavorite(fav.id!)">Delete</button>
-      </td>
-    </tr>
-  </table>
-
+  <div class="empty-state" *ngIf="favorites.length === 0">
+    <p>No favorite cities added yet. Start searching!</p>
+  </div>
 </div>
 
 <app-user-footer></app-user-footer>

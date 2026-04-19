@@ -2,195 +2,187 @@
 
 <div class="forecast-container">
 
-    <!-- SEARCH -->
-    <div class="search-box">
-        <input [(ngModel)]="city" placeholder="Enter city..." />
-        <button (click)="searchWeather()">Search</button>
+  <!-- SEARCH -->
+ <div class="search-box">
+
+  <input 
+    [(ngModel)]="city"
+    (input)="onSearchChange()"
+    (keydown.enter)="selectCity(city)"
+    placeholder="Enter city..."
+  />
+
+  <button (click)="searchWeather()">Search</button>
+
+  <!-- 🔥 Suggestions Dropdown -->
+  <div class="suggestions" *ngIf="suggestions.length > 0">
+    <div 
+      class="suggestion-item"
+      *ngFor="let s of suggestions"
+      (click)="selectCity(s.name)"
+    >
+      {{ s.name }}, {{ s.country }}
     </div>
-
-    <div *ngIf="mapVisible" class="main-container">
-
-        <!-- LEFT PANEL -->
-        <div class="forecast-wrapper">
-
-<table class="forecast-table">
-
-  <!-- DAYS -->
-  <tr>
-    <th></th>
-   <th *ngFor="let day of forecastData || []">
-  <div class="day-name">
-    {{ day.date | date:'EEE' }}
   </div>
-  <div class="day-date">
-    {{ day.date | date:'dd' }}
-  </div>
-</th>
-  </tr>
-
-  <!-- AM PM NIGHT -->
-  <tr>
-  <td></td>
-  <td *ngFor="let day of forecastData">
-    <div class="slots">
-      <span *ngFor="let s of day.slots">
-        {{ s.slot }}
-      </span>
-    </div>
-  </td>
-</tr>
-
- 
- <!-- ICON -->
-<tr>
-  <td></td>
-  <td *ngFor="let day of forecastData">
-    <div class="slots">
-      <span *ngFor="let s of day.slots">
-        {{ getIcon(s?.condition, s?.hour) }}
-      </span>
-    </div>
-  </td>
-</tr>
-
-<!-- WIND -->
-<tr>
-  <td class="label">Wind</td>
-  <td *ngFor="let day of forecastData">
-    <div class="slots">
-      <span *ngFor="let s of day.slots">
-        💨 {{ s?.wind }} m/s
-      </span>
-    </div>
-  </td>
-</tr>
-
-  <!-- RAIN -->
-  <tr>
-    <td class="label">Rain</td>
-    <td *ngFor="let day of forecastData || []">
-      <div class="slots">
-        <span *ngFor="let s of day.slots">-</span>
-      </div>
-    </td>
-  </tr>
-
-  <!-- HIGH -->
- <tr>
-  <td class="label">High</td>
-
-  <td *ngFor="let day of forecastData || []">
-    <div class="slots">
-      <span class="temp-high" *ngFor="let s of day.slots">
-        {{ s?.max ?? '-' }}°
-      </span>
-    </div>
-  </td>
-</tr>
-
-  
- <tr>
-  <td class="label">Map</td>
-
-  <td *ngFor="let day of forecastData">
-    <img 
-      class="map-img"
-      [src]="'https://maps.locationiq.com/v3/staticmap?key=pk.1234567890abcdef&center=' 
-              + weatherData.latitude + ',' + weatherData.longitude + 
-              '&zoom=8&size=200x120&markers=icon:small-red-cutout|' 
-              + weatherData.latitude + ',' + weatherData.longitude"
-      (click)="openStationMap({ coord: { lat: weatherData.latitude, lon: weatherData.longitude }, name: weatherData.name })"
-      style="cursor:pointer;">
-  </td>
-</tr>
-  <!-- LOW -->
-  <tr>
-  <td class="label">Low</td>
-
-  <td *ngFor="let day of forecastData || []">
-    <div class="slots">
-      <span class="temp-low" *ngFor="let s of day.slots">
-        {{ s?.min ?? '-' }}°
-      </span>
-    </div>
-  </td>
-</tr>
-
-  <!-- FEELS -->
-  <tr>
-    <td class="label">Feels</td>
-    <td *ngFor="let day of forecastData || []">
-      <div class="slots">
-        <span *ngFor="let s of day.slots">
-          {{ s.temp }}
-        </span>
-      </div>
-    </td>
-  </tr>
-
-  <!-- HUMIDITY -->
-  <tr>
-    <td class="label">Humidity</td>
-    <td *ngFor="let day of forecastData || []">
-      <div class="slots">
-        <span *ngFor="let s of day.slots">
-          {{ s.humidity }}
-        </span>
-      </div>
-    </td>
-  </tr>
-<tr>
-  <td class="label">Time</td>
-  <td *ngFor="let day of forecastData">
-    <div class="slots">
-      <span *ngFor="let s of day.slots">
-        {{ s?.time ?? '-' }}
-      </span>
-    </div>
-  </td>
-</tr>
-</table>
 
 </div>
-        <!-- RIGHT PANEL -->
-        <div class="right-panel">
 
-            <!-- MAP -->
-            <div class="map-box">
-                <div id="map"></div>
-            </div>
+  <!-- 🔥 CURRENT WEATHER CARD -->
+  <div *ngIf="weatherData" class="weather-card">
+
+    <div class="top-bar">
+      <div>
+       <p class="title">
+  {{ weatherData?.name ? (weatherData.name + ', IN') : 'Current Weather' }}
+</p>
+        <span class="time">{{ currentTime }}</span>
+      </div>
+
+      <div class="switch">
+        💬 Seeing different weather?
+      </div>
+    </div>
+
+    <div class="main-content">
+
+      <!-- LEFT -->
+      <div class="left">
+        <div class="temp-section">
+          <span class="icon">
+            {{ getIcon(weatherData.condition, currentHour) }}
+          </span>
+          <span class="temp">{{ weatherData.temperature || '-' }}°C</span>
         </div>
 
+        <div class="details">
+          <p class="condition">{{ weatherData.condition || 'Clear' }}</p>
+          <p class="feels">Feels like {{ weatherData.feels_like || '-' }}°</p>
+        </div>
+      </div>
+
     </div>
+
+    <p class="desc">
+      The skies will be mostly {{ weatherData.condition || 'Clear' }}.
+      The low will be {{ weatherData.temp_min || '-' }}°.
+    </p>
+
+    <!-- BOTTOM STATS -->
+    <div class="stats">
+      <div>Air quality <span>79</span></div>
+      <div>Wind <span>{{ weatherData.wind || 0 }} km/h ➤</span></div>
+      <div>Humidity <span>{{ weatherData.humidity }}%</span></div>
+      <div>Visibility <span>{{ weatherData.visibility }} km</span></div>
+      <div>Pressure <span>{{ weatherData.pressure }} mb</span></div>
+      <div>Dew point <span>{{ weatherData.feels_like }}°</span></div>
+    </div>
+
+  </div>
+
+  <div class="hourly-section">
+
+  <!-- ===== DAYS SCROLL ===== -->
+  <div class="days-scroll">
+
+<div class="day-item"
+  *ngFor="let day of forecastDays; let i = index"
+  [class.active]="i === selectedDayIndex"
+  (click)="selectDay(i)"
+>
+
+  <p class="day-name">{{day.label}}</p>
+
+  <!-- 🔥 NEW DATE -->
+  <small class="day-date">{{day.dayDate}}</small>
+
+  <span class="temp">{{day.temp_max}}°</span>
+
+</div>
+
+  </div>
+
+
+  <!-- ===== HOURLY LIST ===== -->
+  <div class="hourly-list" *ngIf="selectedDayHours?.length">
+
+  <div class="hour-row"
+       *ngFor="let hour of selectedDayHours; let i = index">
+
+      <!-- BASIC ROW -->
+      <div class="row-main" (click)="toggleRow(i)">
+
+        <span class="time">{{hour.time}}</span>
+        <span class="condition">{{hour.condition}}</span>
+        <span class="temp">{{hour.temp}}°</span>
+        <span class="rain">{{hour.rain}}%</span>
+        <span class="wind">{{hour.wind}} km/h</span>
+
+        <span class="arrow" [class.rotate]="hour.open">⌄</span>
+
+      </div>
+
+      <!-- EXPAND DETAILS -->
+      <div class="row-details" *ngIf="hour.open">
+
+        <p>Feels like: {{hour.feels}}°</p>
+        <p>Humidity: {{hour.humidity}}%</p>
+        <p>Pressure: {{hour.pressure}} mb</p>
+        <p>Visibility: {{hour.visibility}} km</p>
+        <p>Wind gust: {{hour.gust}} km/h</p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+  <div *ngIf="mapVisible" class="main-container">
+
+    <!-- LEFT PANEL -->
+    
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+
+      <!-- MAP -->
+      <div class="map-box">
+        <div id="map"></div>
+      </div>
+    </div>
+
+  </div>
 
 </div>
 
 <!-- 🔹 FORECAST MODAL -->
 <div class="forecast-modal" *ngIf="selectedForecast">
-    <div class="modal-overlay" (click)="closeForecastModal()"></div>
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Forecast Details – {{selectedForecast.date}}</h3>
-            <button class="close-btn" (click)="closeForecastModal()">✖</button>
-        </div>
-        <p>🌡 Temperature: {{selectedForecast.temperature}}°C</p>
-        <p>💨 Wind: {{selectedForecast.wind}} m/s</p>
-        <p>💧 Humidity: {{selectedForecast.humidity}}%</p>
-        <p>☁ Condition: {{selectedForecast.condition}}</p>
-        <p>🌅 Sunrise: {{selectedForecast.sunrise | date:'shortTime'}}</p>
-        <p>🌇 Sunset: {{selectedForecast.sunset | date:'shortTime'}}</p>
-        <p>🌡 Feels Like: {{selectedForecast.feels_like}}°C</p>
-        <p>🔽 Pressure: {{selectedForecast.pressure}} hPa</p>
+  <div class="modal-overlay" (click)="closeForecastModal()"></div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Forecast Details – {{selectedForecast.date}}</h3>
+      <button class="close-btn" (click)="closeForecastModal()">✖</button>
     </div>
+    <p>🌡 Temperature: {{selectedForecast.temperature}}°C</p>
+    <p>💨 Wind: {{selectedForecast.wind}} m/s</p>
+    <p>💧 Humidity: {{selectedForecast.humidity}}%</p>
+    <p>☁ Condition: {{selectedForecast.condition}}</p>
+    <p>🌅 Sunrise: {{selectedForecast.sunrise | date:'shortTime'}}</p>
+    <p>🌇 Sunset: {{selectedForecast.sunset | date:'shortTime'}}</p>
+    <p>🌡 Feels Like: {{selectedForecast.feels_like}}°C</p>
+    <p>🔽 Pressure: {{selectedForecast.pressure}} hPa</p>
+  </div>
 </div>
 
 <!-- DETAILED NEAREST STATIONS TABLE – NEW -->
 <!-- NEW DETAILED NEAREST STATIONS TABLE -->
 <div class="stations-list-detailed" style="margin-top:30px;">
   <h3 *ngIf="nearestStationsDetailed.length > 0">
-   Live Weather Stations Near {{ city || nearestCity || 'Your Location' }}
-</h3>
-  <table class="stations-table" border="1" cellspacing="0" cellpadding="5" style="width:100%; border-collapse: collapse;">
+    Live Weather Stations Near {{ city || nearestCity || 'Your Location' }}
+  </h3>
+  <table class="stations-table" border="1" cellspacing="0" cellpadding="5"
+    style="width:100%; border-collapse: collapse;">
     <thead style="background:#f0f0f0;">
       <tr>
         <th>Weather Station</th>
@@ -202,25 +194,25 @@
       </tr>
     </thead>
     <tbody>
-     <tr *ngFor="let st of nearestStationsDetailed">
-  <td>
-    <div>{{ st.name }}</div>
-    <small style="color:#666;">
-      {{ st.distanceDetail }}<br>
-      {{ st.altitude }} ft alt.<br>
-      {{ st.updatedAgo }}
-    </small>
-  </td>
-  <td style="background:#ff6b6b; color:white; text-align:center;">
-    {{ st.temp }}°C
-  </td>
- <td>
-  {{ getIcon(st.conditionLine, 12) }} {{ st.conditionLine }}
-</td>
-  <td>{{ st.wind }} m/s</td>
-  <td>Clouds: {{ st.clouds }}% / Vis: {{ st.visibility }} m</td>
-  <td>{{ st.distance }} km</td>
-</tr>
+      <tr *ngFor="let st of nearestStationsDetailed">
+        <td>
+          <div>{{ st.name }}</div>
+          <small style="color:#666;">
+            {{ st.distanceDetail }}<br>
+            {{ st.altitude }} ft alt.<br>
+            {{ st.updatedAgo }}
+          </small>
+        </td>
+        <td style="background:#ff6b6b; color:white; text-align:center;">
+          {{ st.temp }}°C
+        </td>
+        <td>
+          {{ getIcon(st.conditionLine, 12) }} {{ st.conditionLine }}
+        </td>
+        <td>{{ st.wind }} m/s</td>
+        <td>Clouds: {{ st.clouds }}% / Vis: {{ st.visibility }} m</td>
+        <td>{{ st.distance }} km</td>
+      </tr>
     </tbody>
   </table>
 </div>
@@ -230,3 +222,4 @@
 
 
 <app-user-footer></app-user-footer>
+

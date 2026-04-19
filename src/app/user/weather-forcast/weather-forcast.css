@@ -696,6 +696,573 @@
 
 
 
+/* today css */
+
+.weather-card {
+  background: linear-gradient(135deg, #5b4b8a, #4b3f72);
+  color: white;
+  padding: 20px;
+  border-radius: 16px;
+  max-width: 900px;
+  margin: 20px auto;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* TOP */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.time {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.switch {
+  background: rgba(255,255,255,0.1);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+/* MAIN */
+.main-content {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.temp-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon {
+  font-size: 50px;
+}
+
+.temp {
+  font-size: 60px;
+  font-weight: bold;
+}
+
+.details .condition {
+  font-size: 20px;
+}
+
+.details .feels {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* DESC */
+.desc {
+  margin-top: 10px;
+  font-size: 15px;
+  opacity: 0.9;
+}
+
+/* STATS */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  margin-top: 20px;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.stats div {
+  opacity: 0.9;
+}
+
+.stats span {
+  display: block;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+
+
+
+/* 🌙 MAIN BACKGROUND */
+.forecast-container {
+  background: linear-gradient(180deg, #0f1c2e, #1a2c45);
+  min-height: 100vh;
+  padding: 20px;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* 🔍 SEARCH */
+.search-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: #1f2f4a;
+  color: white;
+}
+
+.search-box button {
+  padding: 10px 20px;
+  border-radius: 10px;
+  background: #ffd43b;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* 🌤 WEATHER CARD */
+.weather-card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.time {
+  font-size: 14px;
+  color: #ccc;
+}
+
+/* 🌡 TEMP */
+.main-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.icon {
+  font-size: 40px;
+}
+
+.temp {
+  font-size: 50px;
+  font-weight: bold;
+}
+
+/* 📊 STATS */
+.stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #ccc;
+}
+
+/* ========================= */
+/* 🔥 TABS */
+/* ========================= */
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.tabs button {
+  background: #1f2f4a;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+}
+
+.tabs button:hover {
+  background: #2c4368;
+}
+
+/* ACTIVE TAB */
+.tabs button.active {
+  background: #ffd43b;
+  color: black;
+}
+
+/* ========================= */
+/* VIEW TOGGLE */
+/* ========================= */
+
+.view-toggle {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.view-toggle button {
+  background: #1f2f4a;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+
+/* ========================= */
+/* DAY CARDS */
+/* ========================= */
+
+.day-cards {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  margin: 15px 0;
+}
+
+.day-card {
+  min-width: 90px;
+  background: #1f2f4a;
+  padding: 10px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.day-name {
+  font-size: 13px;
+  color: #ccc;
+}
+
+.day-date {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.day-card .temp {
+  font-size: 14px;
+}
+
+/* ========================= */
+/* 📊 CHART VIEW */
+/* ========================= */
+
+.chart-view {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 20px 0;
+}
+
+.chart-day {
+  display: flex;
+  gap: 15px;
+}
+
+.chart-slot {
+  text-align: center;
+  min-width: 60px;
+}
+
+.chart-slot .time {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.chart-slot .value {
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+/* 🔥 GRAPH BAR */
+.bar {
+  width: 20px;
+  margin: auto;
+  border-radius: 10px;
+  background: linear-gradient(to top, #ff6b6b, #ffa94d);
+  transition: 0.3s;
+}
+.chart-view {
+  background: linear-gradient(to bottom, #2d2f5b, #1c2a45);
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.chart-view canvas {
+  width: 100% !important;
+  height: 350px !important;
+}
+/* ========================= */
+/* 📋 LIST VIEW */
+/* ========================= */
+
+.list-view {
+  margin-top: 20px;
+}
+
+.list-day {
+  margin-bottom: 20px;
+}
+
+.list-day h3 {
+  margin-bottom: 10px;
+}
+
+.list-item {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  padding: 10px;
+  background: #1f2f4a;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+/* ========================= */
+/* 🗺 MAP */
+/* ========================= */
+
+.map-box {
+  margin-top: 20px;
+}
+
+#map {
+  height: 300px;
+  border-radius: 15px;
+}
+
+/* ========================= */
+/* 🔥 SCROLLBAR */
+/* ========================= */
+
+::-webkit-scrollbar {
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+.day-card.active {
+  background: #2b6cff;
+  color: white;
+  transform: scale(1.05);
+}
+
+/* MAIN BOX */
+.chart-container {
+  background: #1f2f4a;
+  border-radius: 20px;
+  padding: 20px;
+  margin-top: 15px;
+}
+
+/* TOP HOURS */
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.hour {
+  text-align: center;
+  font-size: 12px;
+  color: #ccc;
+  min-width: 60px;
+}
+
+/* BODY */
+.chart-body {
+  display: flex;
+}
+
+/* LEFT AXIS */
+.y-axis {
+  width: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #aaa;
+  font-size: 12px;
+}
+
+/* GRAPH AREA */
+.graph {
+  flex: 1;
+  position: relative;
+  height: 200px;
+}
+
+/* SVG */
+.graph svg {
+  width: 100%;
+  height: 100%;
+}
+
+
+
+
+
+
+
+
+/* New block */
+
+
+.hourly-section {
+  padding: 20px;
+  color: #fff;
+}
+
+/* ===== DAYS ===== */
+.days-scroll {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  margin-bottom: 15px;
+}
+
+.day-item {
+  min-width: 80px;
+  padding: 10px;
+  border-radius: 10px;
+  background: #2f4b6e;
+  text-align: center;
+  cursor: pointer;
+}
+
+.day-item.active {
+  background: #4f6f9f;
+}
+
+/* ===== LIST ===== */
+.hourly-list {
+  background: #2f4b6e;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* ROW */
+.hour-row {
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.row-main {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  padding: 12px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.row-main:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+/* TEXT */
+.time { font-weight: bold; }
+.temp { font-size: 16px; }
+
+/* ARROW */
+.arrow {
+  text-align: right;
+  transition: 0.3s;
+}
+
+.arrow.rotate {
+  transform: rotate(180deg);
+}
+
+/* DETAILS */
+.row-details {
+  padding: 10px 20px;
+  background: #3d5a80;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+}
+.day-item {
+  text-align: center;
+  padding: 10px;
+}
+
+.day-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.day-date {
+  font-size: 12px;
+  color: #aaa;
+  display: block;
+  margin-top: 2px;
+}
+
+.temp {
+  font-size: 16px;
+  margin-top: 5px;
+  display: block;
+}
+
+.search-box {
+  position: relative;
+}
+
+.suggestions {
+  position: absolute;
+  width: 100%;
+  background: #1e1e2f;
+  border-radius: 10px;
+  margin-top: 5px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.suggestion-item {
+  padding: 10px;
+  cursor: pointer;
+  color: #fff;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.suggestion-item:hover {
+  background: #2a2a40;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

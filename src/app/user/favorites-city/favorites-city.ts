@@ -22,23 +22,25 @@ export class FavoritesCity implements OnInit {
     private cdr: ChangeDetectorRef
   ) {}
 
-ngOnInit() {
-  this.firebaseService.getAllFavorites().subscribe(favs => {
-    console.log("DATA:", favs);   // 👈 check this
+  ngOnInit() {
 
-    this.favorites = favs.map(fav => ({
-      ...fav,
-      addedAt: fav.addedAt?.toDate ? fav.addedAt.toDate() : fav.addedAt
-    }));
-
-    this.cdr.detectChanges();
-  });
-}
+    this.firebaseService.getAllFavorites().subscribe({
+      next: (favs) => {
+       
+        this.favorites = favs.map(fav => ({
+          ...fav,
+          
+          addedAt: (fav as any).addedAt?.toDate ? (fav as any).addedAt.toDate() : (fav as any).addedAt
+        }));
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error("Error:", err)
+    });
+  }
 
   deleteFavorite(favId: string) {
-    this.firebaseService.deleteFavoriteCity(favId)
-      .then(() => {
-        // no need reload
-      });
+    this.firebaseService.deleteFavoriteCity(favId).then(() => {
+      
+    });
   }
 }

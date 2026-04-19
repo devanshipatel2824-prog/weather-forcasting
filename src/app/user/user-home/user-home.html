@@ -9,92 +9,140 @@
     {{weatherData?.weather[0]?.main | uppercase}}
   </div>
 
+
+
+  
   <!-- HERO SECTION -->
   <div class="weather-hero">
 
     <!-- LOCATION -->
-    <div class="location">
-      <span class="pin">📍</span>
-      <h2>{{weatherData?.name}}</h2>
-      <p>{{weatherData?.sys?.country}}</p>
+   <div class="location-search">
+
+  <span class="pin">
+  <i class="fa-solid fa-location-dot"></i>
+</span>
+
+  <div class="search-box">
+
+   <input 
+  class="search-input"
+  type="text"
+  placeholder="Search city..."
+  [(ngModel)]="searchText"
+  (input)="onSearch()"
+  (keyup.enter)="searchCity()" 
+/>
+
+    <!-- Suggestions -->
+    <div class="suggestions" *ngIf="suggestions.length > 0">
+
+      <div 
+        class="suggest-item"
+        *ngFor="let city of suggestions"
+        (click)="selectCity(city)"
+      >
+        {{city.name}}, {{city.country}}
+      </div>
+
     </div>
 
+  </div>
+
+</div>
+<div class="weather-icon-box">
+        <img src="partlycloudy.jpg" />
+      </div>
     <!-- CENTER CONTENT -->
     <div class="center-content">
 
       <!-- ICON -->
-      <div class="weather-icon-box">
+      <!-- <div class="weather-icon-box">
         <img src="partlycloudy.jpg" />
-      </div>
+      </div> -->
 
       <!-- TEMP -->
-      <div class="temp-box">
-        <h1>{{weatherData?.main?.temp}}°C</h1>
-        <p class="desc">{{weatherData?.weather[0]?.main}}</p>
+      <div class="center-content">
 
-        <span class="time">
-          {{ currentTime | date:'hh:mm a, MMM d, y' }}
-        </span>
-      </div>
+  <!-- VALSAD -->
+  <div class="temp-box">
+    <h2>{{weatherData?.name}}</h2>
+    <h1>{{weatherData?.main?.temp}}°C</h1>
+    <p class="desc">{{weatherData?.weather[0]?.main}}</p>
+
+    <!-- VALSAD -->
+<span class="time">
+  {{ getLocalTime('Asia/Kolkata') }}
+</span>
+  </div>
+
+  <!-- FOREIGN -->
+  <div class="temp-box">
+    <h2>{{foreignWeather?.name}}</h2>
+    <h1>{{foreignWeather?.main?.temp}}°C</h1>
+    <p class="desc">{{foreignWeather?.weather[0]?.main}}</p>
+
+    <!-- LONDON -->
+<span class="time">
+  {{ getLocalTime('Europe/London') }}
+</span>
+  </div>
+
+</div>
 
     </div>
   </div>
 
-  <!-- CARDS -->
-  <div class="weather-cards">
+ <div class="weather-cards">
 
-    <!-- TEMP -->
-    <div class="card">
-      <h4>🌡 Temp (Min/Max)</h4>
+  <!-- TEMP -->
+  <div class="card">
+    <h4><i class="fa-solid fa-temperature-half"></i> Temperature</h4>
 
-      <div class="temp-box small">
-        <img src="partlycloudy.png" />
-        <span>PARTLY CLOUDY</span>
-      </div>
-
-      <div class="minmax">
-        <p>Max <span>{{weatherData?.main?.temp_max}}°C</span></p>
-        <p>Min <span>{{weatherData?.main?.temp_min}}°C</span></p>
-      </div>
+    <div class="temp-box small">
+      <span class="status">{{weatherData?.weather[0]?.main}}</span>
     </div>
 
-    <!-- HUMIDITY -->
-    <div class="card">
-      <h4>💧 Humidity</h4>
+    <div class="minmax">
+      <p>Max <span>{{weatherData?.main?.temp_max}}°C</span></p>
+      <p>Min <span>{{weatherData?.main?.temp_min}}°C</span></p>
+    </div>
+  </div>
 
-      <div class="gauge">
-        <div class="semi-circle"></div>
-        <div class="needle" [style.transform]="'rotate(' + humidityRotate + 'deg)'"></div>
-        <div class="value">{{weatherData?.main?.humidity}}%</div>
+  <!-- HUMIDITY -->
+  <div class="card">
+   <h4><i class="fa-solid fa-droplet"></i> Humidity</h4>
+
+    <div class="gauge">
+      <div class="semi-circle"></div>
+      <div class="needle" [style.transform]="'rotate(' + humidityRotate + 'deg)'"></div>
+      <div class="value">{{weatherData?.main?.humidity}}%</div>
+    </div>
+  </div>
+
+  <!-- RAIN -->
+  <div class="card">
+    <h4><i class="fa-solid fa-cloud-rain"></i> Rainfall</h4>
+
+    <div class="rain-box">
+      <div class="drop"></div>
+      <span>{{weatherData?.rain?.['1h'] || 0}}%</span>
+    </div>
+  </div>
+
+  <!-- WIND -->
+  <div class="card">
+    <h4><i class="fa-solid fa-wind"></i> Wind</h4>
+
+    <div class="wind-box">
+      <div class="compass">
+        <div class="arrow" [style.transform]="'rotate(' + windDeg + 'deg)'"></div>
+      </div>
+
+      <div class="wind-text">
+        <h2>{{weatherData?.wind?.speed}} km/h</h2>
+        <p>{{windDirection}}</p>
       </div>
     </div>
-
-    <!-- RAIN -->
-    <div class="card">
-      <h4>🌧 Rainfall</h4>
-
-      <div class="rain-box">
-        <div class="drop"></div>
-        <span>{{weatherData?.rain?.['1h'] || 0}}%</span>
-      </div>
-    </div>
-
-    <!-- WIND -->
-    <div class="card">
-      <h4>🌬 Wind</h4>
-
-      <div class="wind-box">
-        <div class="compass">
-          <div class="arrow" [style.transform]="'rotate(' + windDeg + 'deg)'"></div>
-        </div>
-
-        <div class="wind-text">
-          <h2>{{weatherData?.wind?.speed}} km/h</h2>
-          <p>{{windDirection}}</p>
-        </div>
-      </div>
-    </div>
-
   </div>
 
 </div>
